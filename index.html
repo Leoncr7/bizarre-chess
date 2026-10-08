@@ -16,9 +16,14 @@
     <section class="intro">
       <div class="eyebrow" id="mode-eyebrow">BATALHA DE STANDS · ESCOLHA SEU ADVERSÁRIO</div>
       <h1>Seu próximo movimento<br><span>é uma aventura bizarra.</span></h1>
-      <p>Um duelo de xadrez 2D inspirado em <i>JoJo’s Bizarre Adventure</i>. Faça xeque-mate — ou pare o tempo para virar o jogo.</p>
+      <p>Um duelo de xadrez 2D inspirado em <i>JoJo’s Bizarre Adventure</i>. Faça xeque-mate — ou use os poderes para virar o jogo.</p>
     </section>
-    <section class="game" aria-label="Jogo de xadrez">
+    <section id="game-menu" class="game-menu" aria-label="Menu do jogo">
+      <div class="menu-kicker">STAR PLATINUM · THE WORLD</div><div class="menu-coins">✦ <span id="coins-menu">0</span> moedas</div><h2>Escolha sua batalha</h2><p>Entre no tabuleiro e decida o destino.</p>
+      <div class="menu-options"><button data-start-mode="bot"><span>01</span><strong>Contra o bot</strong><small>Enfrente DIO em uma partida rápida.</small></button><button data-start-mode="local"><span>02</span><strong>Dois jogadores</strong><small>Jogue no mesmo dispositivo.</small></button><button data-start-mode="tournament"><span>03</span><strong>Torneio JoJo</strong><small>Supere cinco rivais do anime.</small></button></div>
+      <div class="menu-loadout">PODER EQUIPADO: <b id="menu-equipped">Parada do Tempo</b></div><button id="open-shop-menu" class="shop-open-button">✦ &nbsp; LOJA DE PODERES</button>
+    </section>
+    <section id="game" class="game" aria-label="Jogo de xadrez" hidden>
       <div class="board-column">
         <div class="player-bar opponent"><div class="avatar purple" id="opponent-avatar">DIO</div><div class="player-info"><strong id="opponent-name">DIO BRANDO</strong><small id="opponent-caption">AS PEÇAS DAS SOMBRAS</small></div><span class="turn-dot" id="black-dot"></span></div>
         <div class="board-frame"><div class="coordinates files" aria-hidden="true"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span></div><div id="board" class="board" role="grid" aria-label="Tabuleiro de xadrez"></div></div>
@@ -26,19 +31,19 @@
       </div>
       <aside class="side-panel">
         <div class="panel-heading"><span class="live-dot"></span> <span>ESTADO DA BATALHA</span></div>
+        <div class="game-coins">✦ <span id="coins-game">0</span> moedas <button id="open-shop-game" class="shop-inline">LOJA</button></div>
         <div id="status" class="status" aria-live="polite">A vez de Jotaro</div>
         <div class="mode-switch" role="group" aria-label="Modo de jogo"><button id="bot-mode" class="mode-button active" aria-pressed="true">JOGAR CONTRA O BOT</button><button id="local-mode" class="mode-button" aria-pressed="false">2 JOGADORES</button><button id="tournament-mode" class="mode-button" aria-pressed="false">TORNEIO JOJO</button></div>
         <section id="tournament-card" class="tournament-card" hidden aria-label="Progresso do torneio"><div class="section-title">CAMINHO ATÉ A FINAL</div><ol id="bracket" class="bracket"></ol></section>
         <div class="power-card">
-          <div class="power-icon" id="power-icon">時</div><div><div class="power-label">PODERES DE STAND</div><h2 id="power-title">Parada do Tempo</h2></div>
-          <label class="power-choice-label" for="power-choice">ESCOLHA UM PODER</label>
-          <select id="power-choice" class="power-choice"><option value="time">Parada do Tempo · Jotaro / DIO</option><option value="hamon">Onda Hamon · Jonathan / Joseph</option><option value="arrow">Flecha do Stand · Giorno</option><option value="crimson">Apagar o Tempo · King Crimson</option></select>
-          <p id="power-description">Jogue dois turnos seguidos. Uso único por partida.</p>
+          <div class="power-icon" id="power-icon">時</div><div><div class="power-label" id="power-label">PODER DE JOTARO</div><h2 id="power-title">Parada do Tempo</h2></div>
+          <p id="power-description">Jogue dois turnos seguidos. Recarrega em 3 turnos.</p>
           <button id="power" class="power-button"><span>✦</span> ATIVAR PODER <kbd>1×</kbd></button>
         </div>
         <div class="captured"><div class="section-title">TROFÉUS DE JOTARO</div><div id="captures" class="capture-list">Nenhuma peça capturada</div></div>
         <div class="move-log"><div class="section-title">ÚLTIMOS MOVIMENTOS</div><ol id="moves"><li class="empty">A aventura começa...</li></ol></div>
         <button id="reset" class="reset-button">↻ &nbsp; NOVA PARTIDA</button>
+        <button id="back-menu" class="reset-button">⌂ &nbsp; MENU PRINCIPAL</button>
         <button id="claim-draw" class="reset-button claim-draw" hidden>REIVINDICAR EMPATE</button>
         <button id="tournament-next" class="reset-button tournament-next" hidden>AVANÇAR NO TORNEIO</button>
         <div class="legend"><span>♔</span> Jotaro <span>♚</span> DIO <small>· Clique numa peça e depois numa casa</small></div>
@@ -48,6 +53,7 @@
     <footer>FEITO PARA QUEM TEM <b>「勇気」</b> · A CORAGEM DE LUTAR</footer>
   </main>
   <dialog id="promotion-dialog" class="promotion-dialog" aria-labelledby="promotion-title"><h2 id="promotion-title">Promoção de peão</h2><p>Escolha a peça para promover:</p><div class="promotion-options"><button data-piece="q" aria-label="Promover a dama">♕</button><button data-piece="r" aria-label="Promover a torre">♖</button><button data-piece="b" aria-label="Promover a bispo">♗</button><button data-piece="n" aria-label="Promover a cavalo">♘</button></div></dialog>
+  <dialog id="shop-dialog" class="shop-dialog" aria-labelledby="shop-title"><div class="shop-heading"><div><div class="menu-kicker">LOJA DE STANDS</div><h2 id="shop-title">Escolha seu poder</h2></div><div class="shop-coins">✦ <span id="coins-shop">0</span></div></div><p class="shop-explainer">Equipe apenas um poder por vez. Vença o torneio completo para ganhar moedas.</p><div id="shop-items" class="shop-items"></div><button id="close-shop" class="reset-button shop-close">FECHAR LOJA</button></dialog>
   <script src="game.js"></script>
 </body>
 </html>

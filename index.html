@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#110d1d">
+  <title>JoJo: Bizarre Chess</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="layout">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="JoJo Bizarre Chess início"><span class="brand-mark">★</span><span>JOJO <b>BIZARRE CHESS</b></span></a>
+      <span class="edition">棋 · EDIÇÃO STAND</span>
+    </header>
+    <section class="intro">
+      <div class="eyebrow" id="mode-eyebrow">BATALHA DE STANDS · ESCOLHA SEU ADVERSÁRIO</div>
+      <h1>Seu próximo movimento<br><span>é uma aventura bizarra.</span></h1>
+      <p>Um duelo de xadrez 2D inspirado em <i>JoJo’s Bizarre Adventure</i>. Faça xeque-mate — ou pare o tempo para virar o jogo.</p>
+    </section>
+    <section class="game" aria-label="Jogo de xadrez">
+      <div class="board-column">
+        <div class="player-bar opponent"><div class="avatar purple" id="opponent-avatar">DIO</div><div class="player-info"><strong id="opponent-name">DIO BRANDO</strong><small id="opponent-caption">AS PEÇAS DAS SOMBRAS</small></div><span class="turn-dot" id="black-dot"></span></div>
+        <div class="board-frame"><div class="coordinates files" aria-hidden="true"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span></div><div id="board" class="board" role="grid" aria-label="Tabuleiro de xadrez"></div></div>
+        <div class="player-bar current"><div class="avatar gold">空</div><div class="player-info"><strong>JOTARO KUJO</strong><small id="current-caption">AS PEÇAS DA JUSTIÇA</small></div><span class="turn-dot" id="white-dot"></span></div>
+      </div>
+      <aside class="side-panel">
+        <div class="panel-heading"><span class="live-dot"></span> <span>ESTADO DA BATALHA</span></div>
+        <div id="status" class="status" aria-live="polite">A vez de Jotaro</div>
+        <div class="mode-switch" role="group" aria-label="Modo de jogo"><button id="bot-mode" class="mode-button active" aria-pressed="true">JOGAR CONTRA O BOT</button><button id="local-mode" class="mode-button" aria-pressed="false">2 JOGADORES</button><button id="tournament-mode" class="mode-button" aria-pressed="false">TORNEIO JOJO</button></div>
+        <section id="tournament-card" class="tournament-card" hidden aria-label="Progresso do torneio"><div class="section-title">CAMINHO ATÉ A FINAL</div><ol id="bracket" class="bracket"></ol></section>
+        <div class="power-card">
+          <div class="power-icon" id="power-icon">時</div><div><div class="power-label">PODERES DE STAND</div><h2 id="power-title">Parada do Tempo</h2></div>
+          <label class="power-choice-label" for="power-choice">ESCOLHA UM PODER</label>
+          <select id="power-choice" class="power-choice"><option value="time">Parada do Tempo · Jotaro / DIO</option><option value="hamon">Onda Hamon · Jonathan / Joseph</option><option value="arrow">Flecha do Stand · Giorno</option><option value="crimson">Apagar o Tempo · King Crimson</option></select>
+          <p id="power-description">Jogue dois turnos seguidos. Uso único por partida.</p>
+          <button id="power" class="power-button"><span>✦</span> ATIVAR PODER <kbd>1×</kbd></button>
+        </div>
+        <div class="captured"><div class="section-title">TROFÉUS DE JOTARO</div><div id="captures" class="capture-list">Nenhuma peça capturada</div></div>
+        <div class="move-log"><div class="section-title">ÚLTIMOS MOVIMENTOS</div><ol id="moves"><li class="empty">A aventura começa...</li></ol></div>
+        <button id="reset" class="reset-button">↻ &nbsp; NOVA PARTIDA</button>
+        <button id="claim-draw" class="reset-button claim-draw" hidden>REIVINDICAR EMPATE</button>
+        <button id="tournament-next" class="reset-button tournament-next" hidden>AVANÇAR NO TORNEIO</button>
+        <div class="legend"><span>♔</span> Jotaro <span>♚</span> DIO <small>· Clique numa peça e depois numa casa</small></div>
+        <div class="rules-note"><b>ROQUE</b> Mova o rei duas casas para o lado da torre.<br><b>EN PASSANT</b> Capture o peão logo após o avanço duplo.<br><b>PROMOÇÃO</b> Escolha dama, torre, bispo ou cavalo.<small>Poderes JoJo são opcionais e mudam as regras da partida.</small></div>
+      </aside>
+    </section>
+    <footer>FEITO PARA QUEM TEM <b>「勇気」</b> · A CORAGEM DE LUTAR</footer>
+  </main>
+  <dialog id="promotion-dialog" class="promotion-dialog" aria-labelledby="promotion-title"><h2 id="promotion-title">Promoção de peão</h2><p>Escolha a peça para promover:</p><div class="promotion-options"><button data-piece="q" aria-label="Promover a dama">♕</button><button data-piece="r" aria-label="Promover a torre">♖</button><button data-piece="b" aria-label="Promover a bispo">♗</button><button data-piece="n" aria-label="Promover a cavalo">♘</button></div></dialog>
+  <script src="game.js"></script>
+</body>
+</html>

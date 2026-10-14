@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#110d1d">
   <meta property="og:image" content="capa.png">
   <title>JoJo: Bizarre Chess</title>
-  <link rel="stylesheet" href="style.css?v=power-effect-4s">
+  <link rel="stylesheet" href="style.css?v=player-custom-names-1">
 </head>
 <body>
   <main class="layout">
@@ -21,6 +21,7 @@
     </section>
     <section id="game-menu" class="game-menu" aria-label="Menu do jogo">
       <div class="menu-kicker">STAR PLATINUM · THE WORLD</div><div class="menu-coins">✦ <span id="coins-menu">0</span> moedas</div><h2>Escolha sua batalha</h2><p>Entre no tabuleiro e decida o destino.</p>
+      <div class="player-name-settings"><label for="player-one-name-input">SEU NOME<input id="player-one-name-input" type="text" maxlength="24" autocomplete="nickname" placeholder="Jogador 1"></label><label for="player-two-name-input">NOME DO SEGUNDO JOGADOR <small>(MODO 1 VS 1)</small><input id="player-two-name-input" type="text" maxlength="24" autocomplete="off" placeholder="Jogador 2"></label></div>
       <div class="menu-options"><button data-start-mode="bot"><span>01</span><strong>Contra o bot</strong><small>Enfrente DIO em uma partida rápida.</small></button><button data-start-mode="local"><span>02</span><strong>Dois jogadores</strong><small>Cada lado recebe um poder aleatório.</small></button><button data-start-mode="tournament"><span>03</span><strong>Torneio JoJo</strong><small>Supere seis rivais e desbloqueie poderes em sequência.</small></button></div>
       <div class="menu-loadout">PODER EQUIPADO: <b id="menu-equipped">Parada do Tempo</b></div><button id="open-shop-menu" class="shop-open-button">✦ &nbsp; LOJA DE PODERES</button><button id="open-vip" class="vip-open-button">♛ &nbsp; CANTINHO VIP</button>
     </section>
@@ -28,7 +29,7 @@
       <div class="board-column">
         <div class="player-bar opponent"><div class="avatar purple" id="opponent-avatar" aria-hidden="true"></div><div class="player-info"><strong id="opponent-name">DIO BRANDO</strong><small id="opponent-caption">AS PEÇAS DAS SOMBRAS</small></div><span class="turn-dot" id="black-dot"></span></div>
         <div class="board-frame"><div id="power-effect" class="power-effect" aria-hidden="true"></div><div class="coordinates files" aria-hidden="true"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span></div><div id="board" class="board" role="grid" aria-label="Tabuleiro de xadrez"></div></div>
-        <div class="player-bar current"><div class="avatar gold" id="player-avatar" aria-hidden="true"></div><div class="player-info"><strong>JOTARO KUJO</strong><small id="current-caption">AS PEÇAS DA JUSTIÇA</small></div><span class="turn-dot" id="white-dot"></span></div>
+        <div class="player-bar current"><div class="avatar gold" id="player-avatar" aria-hidden="true"></div><div class="player-info"><strong id="current-player-name">Jogador 1</strong><small id="current-caption">AS PEÇAS DA JUSTIÇA</small></div><span class="turn-dot" id="white-dot"></span></div>
       </div>
       <aside class="side-panel">
         <div class="panel-heading"><span class="live-dot"></span> <span>ESTADO DA BATALHA</span></div>
@@ -42,13 +43,13 @@
           <label id="vip-power-choice-label" class="vip-power-choice-label" for="vip-power-choice" hidden>SELECIONE SEU PODER VIP</label><select id="vip-power-choice" class="vip-power-choice" hidden></select>
           <button id="power" class="power-button"><span>✦</span> ATIVAR PODER <kbd>1×</kbd></button>
         </div>
-        <div class="captured"><div class="section-title">TROFÉUS DE JOTARO</div><div id="captures" class="capture-list">Nenhuma peça capturada</div></div>
+        <div class="captured"><div id="captures-title" class="section-title">TROFÉUS DE JOGADOR 1</div><div id="captures" class="capture-list">Nenhuma peça capturada</div></div>
         <div class="move-log"><div class="section-title">ÚLTIMOS MOVIMENTOS</div><ol id="moves"><li class="empty">A aventura começa...</li></ol></div>
         <button id="reset" class="reset-button">↻ &nbsp; NOVA PARTIDA</button>
         <button id="back-menu" class="reset-button">⌂ &nbsp; MENU PRINCIPAL</button>
         <button id="claim-draw" class="reset-button claim-draw" hidden>REIVINDICAR EMPATE</button>
         <button id="tournament-next" class="reset-button tournament-next" hidden>AVANÇAR NO TORNEIO</button>
-        <div class="legend"><span>♔</span> Jotaro <span>♚</span> DIO <small>· Clique numa peça e depois numa casa</small></div>
+        <div class="legend"><span>♔</span> <b id="white-legend-name">Jogador 1</b> <span>♚</span> <b id="black-legend-name">DIO</b> <small>· Clique numa peça e depois numa casa</small></div>
         <div class="rules-note"><b>ROQUE</b> Mova o rei duas casas para o lado da torre.<br><b>EN PASSANT</b> Capture o peão logo após o avanço duplo.<br><b>PROMOÇÃO</b> Escolha dama, torre, bispo ou cavalo.<small>Poderes JoJo são opcionais e mudam as regras da partida.</small></div>
       </aside>
     </section>
@@ -57,6 +58,6 @@
   <dialog id="promotion-dialog" class="promotion-dialog" aria-labelledby="promotion-title"><h2 id="promotion-title">Promoção de peão</h2><p>Escolha a peça para promover:</p><div class="promotion-options"><button data-piece="q" aria-label="Promover a dama">♕</button><button data-piece="r" aria-label="Promover a torre">♖</button><button data-piece="b" aria-label="Promover a bispo">♗</button><button data-piece="n" aria-label="Promover a cavalo">♘</button></div></dialog>
   <dialog id="vip-dialog" class="vip-dialog" aria-labelledby="vip-title"><div class="menu-kicker">ACESSO ESPECIAL</div><h2 id="vip-title">Cantinho VIP</h2><p>Digite a senha para liberar todos os poderes e moedas infinitas.</p><label for="vip-password">SENHA VIP</label><input id="vip-password" type="password" autocomplete="off" placeholder="Digite a senha"><div id="vip-message" class="vip-message" role="status" aria-live="polite"></div><div class="vip-actions"><button id="vip-submit" class="shop-open-button">DESBLOQUEAR</button><button id="vip-close" class="reset-button">VOLTAR</button></div></dialog>
     <dialog id="shop-dialog" class="shop-dialog" aria-labelledby="shop-title"><div class="shop-heading"><div><div class="menu-kicker">PROGRESSÃO DE STANDS</div><h2 id="shop-title">Escolha seu poder</h2></div><div class="shop-coins">✦ <span id="coins-shop">0</span></div></div><p class="shop-explainer">Você começa sem poderes. Vença cada fase do torneio para desbloquear habilidades em ordem crescente.</p><div id="shop-items" class="shop-items"></div><button id="close-shop" class="reset-button shop-close">FECHAR</button></dialog>
-  <script src="game.js?v=vip-match-power-select-1"></script>
+  <script src="game.js?v=player-custom-names-1"></script>
 </body>
 </html>

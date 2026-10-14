@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#110d1d">
   <meta property="og:image" content="capa.png">
   <title>JoJo: Bizarre Chess</title>
-  <link rel="stylesheet" href="style.css?v=player-character-choice-1">
+  <link rel="stylesheet" href="style.css?v=result-overlay-3">
 </head>
 <body>
   <main class="layout">
@@ -26,6 +26,7 @@
       <div class="menu-loadout">PODER EQUIPADO: <b id="menu-equipped">Parada do Tempo</b></div><button id="open-shop-menu" class="shop-open-button">✦ &nbsp; LOJA DE PODERES</button><button id="open-vip" class="vip-open-button">♛ &nbsp; CANTINHO VIP</button>
     </section>
     <section id="game" class="game" aria-label="Jogo de xadrez" hidden>
+      <dialog id="result-overlay" class="result-overlay" aria-labelledby="result-title" aria-describedby="result-detail"><div class="result-card"><div class="result-kicker">FIM DE PARTIDA</div><h2 id="result-title">VITÓRIA</h2><p id="result-detail"></p><button id="result-close" class="result-close">CONTINUAR</button></div></dialog>
       <div class="board-column">
         <div class="player-bar opponent"><div class="avatar purple" id="opponent-avatar" aria-hidden="true"></div><div class="player-info"><strong id="opponent-name">DIO BRANDO</strong><small id="opponent-caption">AS PEÇAS DAS SOMBRAS</small></div><span class="turn-dot" id="black-dot"></span></div>
         <div class="board-frame"><div id="power-effect" class="power-effect" aria-hidden="true"></div><div class="coordinates files" aria-hidden="true"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span></div><div id="board" class="board" role="grid" aria-label="Tabuleiro de xadrez"></div></div>
@@ -58,6 +59,6 @@
   <dialog id="promotion-dialog" class="promotion-dialog" aria-labelledby="promotion-title"><h2 id="promotion-title">Promoção de peão</h2><p>Escolha a peça para promover:</p><div class="promotion-options"><button data-piece="q" aria-label="Promover a dama">♕</button><button data-piece="r" aria-label="Promover a torre">♖</button><button data-piece="b" aria-label="Promover a bispo">♗</button><button data-piece="n" aria-label="Promover a cavalo">♘</button></div></dialog>
   <dialog id="vip-dialog" class="vip-dialog" aria-labelledby="vip-title"><div class="menu-kicker">ACESSO ESPECIAL</div><h2 id="vip-title">Cantinho VIP</h2><p>Digite a senha para liberar todos os poderes e moedas infinitas.</p><label for="vip-password">SENHA VIP</label><input id="vip-password" type="password" autocomplete="off" placeholder="Digite a senha"><div id="vip-message" class="vip-message" role="status" aria-live="polite"></div><div class="vip-actions"><button id="vip-submit" class="shop-open-button">DESBLOQUEAR</button><button id="vip-close" class="reset-button">VOLTAR</button></div></dialog>
     <dialog id="shop-dialog" class="shop-dialog" aria-labelledby="shop-title"><div class="shop-heading"><div><div class="menu-kicker">PROGRESSÃO DE STANDS</div><h2 id="shop-title">Escolha seu poder</h2></div><div class="shop-coins">✦ <span id="coins-shop">0</span></div></div><p class="shop-explainer">Você começa sem poderes. Vença cada fase do torneio para desbloquear habilidades em ordem crescente.</p><div id="shop-items" class="shop-items"></div><button id="close-shop" class="reset-button shop-close">FECHAR</button></dialog>
-  <script src="game.js?v=player-character-choice-2"></script>
+  <script src="game.js?v=result-overlay-4"></script>
 </body>
 </html>

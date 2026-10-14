@@ -158,7 +158,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .portrait{display:block;width:100%;height:100%;image-rendering:pixelated;shape-rendering:crispEdges}
 .board-frame{isolation:isolate}
 .power-effect{position:absolute;z-index:8;inset:22px 0 0 22px;display:none;align-items:center;justify-content:center;overflow:hidden;pointer-events:none;text-align:center}
-.power-effect.active{display:flex;animation:power-flash 1.15s steps(1,end) both}
+.power-effect.active{display:flex;animation:power-flash 10s steps(1,end) both}
 .power-effect::before,.power-effect::after{content:"";position:absolute;inset:0;opacity:.72}
 .power-effect::before{background:repeating-linear-gradient(0deg,transparent 0 7px,#fff5 7px 9px);animation:power-scan .7s steps(5,end) infinite}
 .power-effect::after{inset:12%;border:6px solid currentColor;box-shadow:0 0 0 6px #14101e,0 0 0 12px currentColor;animation:power-frame .55s steps(4,end) infinite alternate}
@@ -172,7 +172,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .power-effect.power-diamond{color:#86ffd0;background:#23a98266}
 .power-effect.power-killer{color:#ff666d;background:#bd304477}
 .power-effect.from-player::after{inset:8% 18% 18% 8%}
-@keyframes power-flash{0%{opacity:0;transform:scale(.94)}12%,76%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.04)}}
+@keyframes power-flash{0%{opacity:0;transform:scale(.94)}3%,92%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.04)}}
 @keyframes power-scan{to{background-position:0 18px}}
 @keyframes power-frame{to{inset:5%;transform:translate(5px,-4px)}}
 @keyframes power-glyph{to{transform:translateY(-6px) scale(1.12);filter:brightness(1.6)}}
@@ -193,13 +193,16 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .square.light{background-color:#e8d39f;background-image:linear-gradient(90deg,#d9c18a 1px,transparent 1px),linear-gradient(#d9c18a 1px,transparent 1px);background-size:8px 8px}
 .square.dark{background-color:#71558a;background-image:linear-gradient(90deg,#624975 1px,transparent 1px),linear-gradient(#624975 1px,transparent 1px);background-size:8px 8px}
 .square.last{background-image:none;box-shadow:inset 0 0 0 4px #f4cf65}
-.piece-sprite{display:block;width:90%;height:100%;overflow:visible;image-rendering:pixelated;shape-rendering:crispEdges;filter:drop-shadow(1px 1px 0 var(--piece-outline))}
-.piece-sprite.white{color:#fff0c2;--piece-outline:#48304d;--piece-accent:#fff9e7;text-shadow:none}
-.piece-sprite.black{color:#332542;--piece-outline:#e8cf98;--piece-accent:#d7a1cf;text-shadow:none;filter:drop-shadow(1px 1px 0 var(--piece-outline))}
+.piece-sprite{display:block;width:90%;height:90%;aspect-ratio:1/1;object-fit:contain;overflow:visible;image-rendering:pixelated}
+.piece-sprite.white{filter:drop-shadow(0 0 1px #34233e)}
+.piece-sprite.black{filter:drop-shadow(0 0 1px #f0d58f)}
+.piece-sprite.knight-fallback{filter:grayscale(1) brightness(.42) contrast(1.3) drop-shadow(0 0 1px #f0d58f)}
 .drag-ghost.white{--piece-outline:#48304d;--piece-accent:#fff9e7}
 .drag-ghost.black{--piece-outline:#e8cf98;--piece-accent:#d7a1cf}
-.drag-ghost svg{display:block;width:100%;height:100%;overflow:visible;image-rendering:pixelated;shape-rendering:crispEdges;color:#fff0c2;filter:drop-shadow(1px 1px 0 var(--piece-outline))}
-.drag-ghost.black svg{color:#332542}
+.drag-ghost .ghost-pixel{display:block;width:90%;height:90%;object-fit:contain;image-rendering:pixelated}
+.drag-ghost.white .ghost-pixel{filter:drop-shadow(0 0 1px #34233e)}
+.drag-ghost.black .ghost-pixel{filter:drop-shadow(0 0 1px #f0d58f)}
+.drag-ghost.black .ghost-pixel.knight-fallback{filter:grayscale(1) brightness(.42) contrast(1.3) drop-shadow(0 0 1px #f0d58f)}
 .square .piece-sprite{pointer-events:none}
 .power-effect.character-dio{color:#9de9ff;background:#163b785c}
 .power-effect.character-dio::before{inset:0;background:linear-gradient(90deg,transparent 49%,#c6f5ff99 50%,transparent 51%),linear-gradient(0deg,transparent 49%,#c6f5ff77 50%,transparent 51%);background-size:24px 24px;animation:dio-freeze .35s steps(2,end) infinite}
@@ -232,4 +235,29 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 @keyframes heaven-expand{to{transform:scale(1.18);opacity:.35}}
 @keyframes dimension-swap{to{background-position:10px 0}}
 @keyframes dimension-portal{to{transform:scaleX(.25) rotate(45deg);opacity:.35}}
-@media(prefers-reduced-motion:reduce){.power-effect.active,.power-effect::before,.power-effect::after,.effect-glyph{animation-duration:1ms!important;animation-iteration-count:1!important}}
+@media(prefers-reduced-motion:reduce){.power-effect.active{animation:none!important;opacity:1!important;transform:none!important}.power-effect::before,.power-effect::after,.effect-glyph{animation-duration:1ms!important;animation-iteration-count:1!important}}
+
+/* Pixel icons and a distinct motion language for each Stand ability. */
+.stand-icon{display:block;width:26px;height:26px;shape-rendering:crispEdges;image-rendering:pixelated;fill:currentColor}
+.power-icon .stand-icon,.shop-item-icon .stand-icon{width:27px;height:27px}
+.power-effect .effect-glyph{width:clamp(76px,18vw,146px);height:clamp(76px,18vw,146px);display:grid;place-items:center;position:relative;font-size:0;text-shadow:none;animation:none;filter:drop-shadow(4px 4px #171020)}
+.effect-glyph>.stand-icon{width:70%;height:70%;overflow:visible}
+.effect-character{position:absolute;right:-8px;bottom:-7px;padding:5px 6px;background:#171020;border:2px solid currentColor;color:inherit;font:700 9px 'Press Start 2P','Courier New',monospace;text-shadow:none;box-shadow:3px 3px #0008}
+.icon-hamon{color:#ffe277}.icon-arrow{color:#ff72b6}.icon-time{color:#8be7ff}.icon-crimson{color:#ff586e}.icon-diamond{color:#8dffd0}.icon-killer{color:#ffd54c}
+.power-effect.power-hamon .effect-glyph::before,.power-effect.power-diamond .effect-glyph::before{content:"";position:absolute;inset:8%;border:4px solid currentColor;box-shadow:0 0 0 6px #171020,0 0 0 10px currentColor;image-rendering:pixelated;z-index:-1}
+.power-effect.power-hamon .effect-glyph::before{animation:hamon-ripple .72s steps(4,end) infinite alternate}
+.power-effect.power-diamond .effect-glyph::before{transform:rotate(45deg) scale(.68);animation:diamond-pulse .55s steps(3,end) infinite alternate}
+.power-effect.power-hamon .effect-glyph>.stand-icon{animation:hamon-sun .8s steps(4,end) infinite alternate}
+.power-effect.power-arrow .effect-glyph>.stand-icon{animation:arrow-launch .48s steps(4,end) infinite alternate}
+.power-effect.power-time .effect-glyph>.stand-icon{animation:time-stop .65s steps(3,end) infinite alternate}
+.power-effect.power-crimson .effect-glyph>.stand-icon{animation:crimson-skip .24s steps(2,end) infinite}
+.power-effect.power-diamond .effect-glyph>.stand-icon{animation:diamond-heal .55s steps(3,end) infinite alternate}
+.power-effect.power-killer .effect-glyph>.stand-icon{animation:killer-bomb .62s steps(4,end) infinite alternate}
+@keyframes hamon-ripple{from{inset:22%;opacity:.5}to{inset:1%;opacity:1}}
+@keyframes hamon-sun{from{transform:scale(.78) rotate(-8deg);filter:brightness(.9)}to{transform:scale(1.08) rotate(8deg);filter:brightness(1.5)}}
+@keyframes arrow-launch{from{transform:translate(-12px,8px) scale(.78)}to{transform:translate(14px,-8px) scale(1.12)}}
+@keyframes time-stop{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.13);filter:brightness(1.8) drop-shadow(0 0 10px #a9edff)}}
+@keyframes crimson-skip{0%,100%{transform:translateX(0);opacity:1}50%{transform:translateX(8px);opacity:.42}}
+@keyframes diamond-pulse{from{transform:rotate(45deg) scale(.5);opacity:.45}to{transform:rotate(45deg) scale(.82);opacity:1}}
+@keyframes diamond-heal{from{transform:scale(.84);filter:brightness(.8)}to{transform:scale(1.08);filter:brightness(1.55) drop-shadow(0 0 8px #8dffd0)}}
+@keyframes killer-bomb{0%,100%{transform:scale(.82);filter:brightness(.9)}65%{transform:scale(1.08);filter:brightness(1.5)}80%{transform:scale(1.2);filter:brightness(2)}}

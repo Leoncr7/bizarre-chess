@@ -39,6 +39,7 @@
         <div class="power-card">
           <div class="power-icon" id="power-icon">時</div><div><div class="power-label" id="power-label">PODER DE JOTARO</div><h2 id="power-title">Parada do Tempo</h2></div>
           <p id="power-description">Jogue dois turnos seguidos. Recarrega em 3 turnos.</p>
+          <label id="vip-power-choice-label" class="vip-power-choice-label" for="vip-power-choice" hidden>SELECIONE SEU PODER VIP</label><select id="vip-power-choice" class="vip-power-choice" hidden></select>
           <button id="power" class="power-button"><span>✦</span> ATIVAR PODER <kbd>1×</kbd></button>
         </div>
         <div class="captured"><div class="section-title">TROFÉUS DE JOTARO</div><div id="captures" class="capture-list">Nenhuma peça capturada</div></div>
@@ -56,6 +57,6 @@
   <dialog id="promotion-dialog" class="promotion-dialog" aria-labelledby="promotion-title"><h2 id="promotion-title">Promoção de peão</h2><p>Escolha a peça para promover:</p><div class="promotion-options"><button data-piece="q" aria-label="Promover a dama">♕</button><button data-piece="r" aria-label="Promover a torre">♖</button><button data-piece="b" aria-label="Promover a bispo">♗</button><button data-piece="n" aria-label="Promover a cavalo">♘</button></div></dialog>
   <dialog id="vip-dialog" class="vip-dialog" aria-labelledby="vip-title"><div class="menu-kicker">ACESSO ESPECIAL</div><h2 id="vip-title">Cantinho VIP</h2><p>Digite a senha para liberar todos os poderes e moedas infinitas.</p><label for="vip-password">SENHA VIP</label><input id="vip-password" type="password" autocomplete="off" placeholder="Digite a senha"><div id="vip-message" class="vip-message" role="status" aria-live="polite"></div><div class="vip-actions"><button id="vip-submit" class="shop-open-button">DESBLOQUEAR</button><button id="vip-close" class="reset-button">VOLTAR</button></div></dialog>
     <dialog id="shop-dialog" class="shop-dialog" aria-labelledby="shop-title"><div class="shop-heading"><div><div class="menu-kicker">PROGRESSÃO DE STANDS</div><h2 id="shop-title">Escolha seu poder</h2></div><div class="shop-coins">✦ <span id="coins-shop">0</span></div></div><p class="shop-explainer">Você começa sem poderes. Vença cada fase do torneio para desbloquear habilidades em ordem crescente.</p><div id="shop-items" class="shop-items"></div><button id="close-shop" class="reset-button shop-close">FECHAR</button></dialog>
-  <script src="game.js?v=anime-power-sounds-1"></script>
+  <script src="game.js?v=vip-match-power-select-1"></script>
 </body>
 </html>

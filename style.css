@@ -263,3 +263,4 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 @keyframes diamond-pulse{from{transform:rotate(45deg) scale(.5);opacity:.45}to{transform:rotate(45deg) scale(.82);opacity:1}}
 @keyframes diamond-heal{from{transform:scale(.84);filter:brightness(.8)}to{transform:scale(1.08);filter:brightness(1.55) drop-shadow(0 0 8px #8dffd0)}}
 @keyframes killer-bomb{0%,100%{transform:scale(.82);filter:brightness(.9)}65%{transform:scale(1.08);filter:brightness(1.5)}80%{transform:scale(1.2);filter:brightness(2)}}
+.vip-power-choice-label{grid-column:1/-1;color:#f3d98e;font:8px 'Press Start 2P','Courier New',monospace;line-height:1.8}.vip-power-choice{grid-column:1/-1;width:100%;min-height:36px;padding:8px;border:2px solid #d7b85e;border-radius:0;background:#171321;color:#fff0bf;font:11px 'Courier New',monospace}.vip-power-choice[hidden],.vip-power-choice-label[hidden]{display:none}

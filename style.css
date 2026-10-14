@@ -218,6 +218,38 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .power-effect.character-diavolo{color:#ff667e;background:#741a3c88}
 .power-effect.character-diavolo::before{background:repeating-linear-gradient(0deg,transparent 0 9px,#ff456488 9px 13px);animation:crimson-glitch .22s steps(2,end) infinite}
 .power-effect.character-diavolo::after{inset:8% 20%;border:0;background:#f34c73aa;clip-path:polygon(0 0,100% 0,100% 18%,36% 18%,36% 37%,82% 37%,82% 54%,15% 54%,15% 77%,100% 77%,100% 100%,0 100%);animation:crimson-erase .7s steps(5,end) both}
+
+/* Loja: cartões de leitura rápida com efeito e estado do poder bem separados */
+.shop-dialog{width:min(900px,calc(100vw - 32px));max-height:88vh;padding:clamp(18px,3vw,30px);overflow:auto}
+.shop-heading{align-items:flex-start;padding-bottom:14px;border-bottom:2px solid #ffffff20}
+.shop-heading h2{font:700 clamp(22px,4vw,32px)/1.2 'Barlow Condensed',Arial,sans-serif;letter-spacing:.3px;color:#fff1bf}
+.shop-heading .menu-kicker{font:700 10px/1.6 'Barlow',Arial,sans-serif;letter-spacing:1.5px;color:#c8a8ea}
+.shop-coins{white-space:nowrap;padding:9px 12px;border:2px solid #9c7d3d;background:#282134;font:700 13px 'Barlow',Arial,sans-serif}
+.shop-explainer{max-width:720px;margin:16px 0;color:#e2dce9;font:15px/1.55 'Barlow',Arial,sans-serif}
+.shop-explainer strong{color:#ffe48b}
+.shop-items-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:20px 0 10px;color:#f4d983;font:700 11px 'Barlow',Arial,sans-serif;letter-spacing:1px}
+.shop-items-heading span{color:#bdb2cb;font:13px 'Barlow',Arial,sans-serif;letter-spacing:0}
+.shop-items{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.shop-item{grid-template-columns:52px minmax(0,1fr) auto;align-items:start;gap:12px;padding:14px;background:#171525;border:2px solid #514268;box-shadow:3px 3px 0 #090812}
+.shop-item.is-equipped{border-color:#e0bd62;background:#272117}
+.shop-item.is-unlocked:not(.is-equipped){border-color:#715c8b}
+.shop-item-icon{width:50px;height:50px;background:#2d2540;border:2px solid #8d72a6;color:#ffe48b}
+.shop-item-details{min-width:0;gap:5px}
+.shop-item-details .shop-power-title{font:700 19px/1.15 'Barlow Condensed',Arial,sans-serif;letter-spacing:.2px;color:#fff3c8}
+.shop-item-details .shop-character{font:700 11px/1.3 'Barlow',Arial,sans-serif;color:#d9b9ef;letter-spacing:.5px;text-transform:uppercase}
+.shop-power-description{margin:4px 0 0;color:#eee9f2;font:14px/1.45 'Barlow',Arial,sans-serif}
+.shop-recharge{margin-top:3px;color:#aee7d0;font:700 12px/1.4 'Barlow',Arial,sans-serif}
+.shop-item-controls{display:grid;justify-items:stretch;gap:8px;min-width:112px}
+.shop-state{display:block;padding:6px 7px;border:1px solid #8b8292;background:#292431;color:#ded7e4;text-align:center;font:700 9px/1.3 'Barlow',Arial,sans-serif;letter-spacing:.5px}
+.shop-state.unlocked{border-color:#66c99a;background:#172c25;color:#a8f0c8}
+.shop-state.equipped{border-color:#edce6b;background:#3a301a;color:#ffe78d}
+.shop-state.locked{border-color:#77717e;color:#c4bdca}
+.shop-buy{min-width:112px;min-height:34px;padding:7px;border:2px solid #9974bb;background:#493552;color:#fff1c2;font:700 10px 'Barlow',Arial,sans-serif;letter-spacing:.5px}
+.shop-buy:disabled{opacity:1;border-color:#625b68;background:#34313a;color:#aaa3af}
+.shop-buy:disabled:not(:hover){cursor:default}
+.shop-close{min-height:42px;font-size:10px}
+@media(max-width:760px){.shop-items{grid-template-columns:1fr}}
+@media(max-width:520px){.shop-dialog{padding:17px 13px}.shop-item{grid-template-columns:42px minmax(0,1fr);gap:10px;padding:11px}.shop-item-icon{width:40px;height:40px}.shop-item-controls{grid-column:2;grid-template-columns:minmax(90px,1fr) minmax(100px,1fr);align-items:center;min-width:0}.shop-state,.shop-buy{min-width:0}.shop-power-description{font-size:14px}.shop-items-heading span{font-size:11px;text-align:right}}
 .power-effect.character-pucci{color:#fff5c2;background:#9a78d577}
 .power-effect.character-pucci::before{inset:-20%;background:repeating-conic-gradient(from 0deg,#fff9 0 3deg,transparent 3deg 15deg);animation:heaven-spin .35s linear infinite}
 .power-effect.character-pucci::after{inset:10%;border:6px solid #fff5c2;border-radius:50%;box-shadow:0 0 0 8px #7351b8aa,0 0 0 16px #fff6;animation:heaven-expand .8s steps(5,end) infinite alternate}
@@ -290,3 +322,8 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .result-overlay.is-draw h2{color:#d1bdff;text-shadow:4px 4px #34274e}
 @keyframes result-enter{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(prefers-reduced-motion:reduce){.result-card{animation:none}}
+.save-note{margin:10px auto 0!important;color:#a99bb7!important;font:7px/1.8 'Press Start 2P','Courier New',monospace!important;letter-spacing:.4px}
+.account-tools{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px auto;color:#c9a7dc;font:8px 'Press Start 2P','Courier New',monospace}.account-tools .reset-button{margin:0;padding:7px 10px;font-size:7px}
+.account-save-status{display:block;min-height:12px;color:#8cae9a;font:9px 'Courier New',monospace;text-align:center}
+.auth-dialog{width:min(420px,calc(100vw - 28px));padding:24px;border:4px solid #b69aff;background:#1d1a31;color:var(--ink);box-shadow:8px 8px 0 #090812}.auth-dialog::backdrop{background:#090711e8;backdrop-filter:blur(3px)}.auth-dialog h2,.vip-dialog h2{margin:8px 0;font:14px/1.8 'Press Start 2P','Courier New',monospace;color:#ffe994}.auth-dialog p{color:#c1b7cb;font:13px/1.5 'Courier New',monospace}.auth-dialog label{display:block;margin:14px 0 7px;color:#e8d59a;font:8px 'Press Start 2P','Courier New',monospace;line-height:1.8}.auth-dialog input{width:100%;height:42px;padding:8px 10px;border:3px solid #655536;border-radius:0;background:#100f1d;color:#fff4d6;font:14px 'Courier New',monospace}.auth-dialog input:focus{outline:3px solid #b69aff;outline-offset:2px}.auth-message{min-height:25px;margin:10px 0;color:#ff9fc8;font:12px/1.5 'Courier New',monospace}.auth-dialog form>.shop-open-button{width:100%;margin-top:5px}.auth-toggle{width:100%;margin-top:12px}
+.vip-users{display:grid;gap:7px;max-height:min(45vh,360px);overflow:auto;margin:12px 0;padding:0;list-style:none}.vip-users li{display:flex;justify-content:space-between;gap:12px;padding:10px;border:2px solid #514268;background:#171321;color:#f6eff9;font:11px/1.5 'Courier New',monospace}.vip-users li small{color:#a99bb7;text-align:right}

@@ -42,7 +42,7 @@ async function localAuth(username,password,registering){
     const salt=randomHex(16),account={id:`local-${randomHex(16)}`,username,salt,hash:await hashLocalPassword(password,salt),createdAt:new Date().toISOString()};
     accounts.push(account);saveLocalAccounts(accounts);localStorage.setItem(LOCAL_SESSION_KEY,account.id);return localUser(account);
   }
-  if(!existing||!equalHash(await hashLocalPassword(password,existing.salt),existing.hash))throw new Error('Nome de usuário ou senha incorretos.');
+  if(!existing||!equalHash(await hashLocalPassword(password,existing.salt),existing.hash))throw new Error('Conta local ou senha incorretas neste navegador. A conta do server.py só pode entrar quando o site está conectado à API do servidor.');
   localStorage.setItem(LOCAL_SESSION_KEY,existing.id);return localUser(existing);
 }
 
@@ -61,7 +61,7 @@ function setAuthMode(next){
   authMode=next;
   const registering=authMode==='register';
   document.querySelector('#auth-title').textContent=registering?'Criar conta':'Entrar';
-  document.querySelector('#auth-explainer').textContent=registering?'Crie uma conta para salvar seu progresso. Use uma senha com pelo menos 10 caracteres.':'Entre para acessar e salvar seu progresso.';
+  document.querySelector('#auth-explainer').textContent=accountBackend==='local'?'Hospedagem estática: contas locais valem apenas neste navegador. A conta do server.py precisa da API do servidor.':registering?'Crie uma conta para salvar seu progresso. Use uma senha com pelo menos 10 caracteres.':'Entre para acessar e salvar seu progresso.';
   document.querySelector('#auth-submit').textContent=registering?'CRIAR CONTA':'ENTRAR';
   document.querySelector('#auth-toggle').textContent=registering?'JÁ TENHO CONTA':'CRIAR CONTA';
   document.querySelector('#auth-password').autocomplete=registering?'new-password':'current-password';

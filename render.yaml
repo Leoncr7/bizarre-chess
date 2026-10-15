@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: jojo-chess-api
+    runtime: python
+    plan: starter
+    buildCommand: "true"
+    startCommand: python server.py --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/auth/me
+    envVars:
+      - key: JOJO_DB_PATH
+        value: /var/data/jojo_chess.sqlite3
+      - key: JOJO_CORS_ORIGINS
+        sync: false
+    disk:
+      name: jojo-chess-data
+      mountPath: /var/data
+      sizeGB: 1

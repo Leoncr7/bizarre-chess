@@ -3,10 +3,15 @@ function accountDatabaseKey(kind){return`account:${currentUser.id}:${kind}`}
 
 let accountBackend='server';
 const LOCAL_ACCOUNTS_KEY='jojoChessLocalAccounts',LOCAL_SESSION_KEY='jojoChessLocalSession';
+const API_BASE_URL=(document.querySelector('meta[name="jojo-api-base"]')?.content||'').trim().replace(/\/$/,'');
+const API_TOKEN_KEY='jojoChessApiToken';
 
 async function apiRequest(path,options={}){
   const headers={...(options.body?{'Content-Type':'application/json'}:{}),...(options.headers||{})};
-  const response=await fetch(path,{credentials:'same-origin',...options,headers});
+  const apiUrl=`${API_BASE_URL}${path}`;
+  const token=API_BASE_URL?localStorage.getItem(API_TOKEN_KEY):null;
+  if(token)headers.Authorization=`Bearer ${token}`;
+  const response=await fetch(apiUrl,{credentials:API_BASE_URL?'omit':'same-origin',...options,headers});
   let result={};
   try{result=await response.json()}catch{}
   if(!response.ok)throw new Error(result.error||'Não foi possível concluir o pedido.');
@@ -73,7 +78,7 @@ async function bootstrapAccount(){
   const dialog=document.querySelector('#auth-dialog');
   dialog.showModal();
   const sessionId=localStorage.getItem(LOCAL_SESSION_KEY);
-  if(sessionId){
+  if(sessionId&&!API_BASE_URL){
     const account=localAccounts().find(item=>item.id===sessionId);
     if(account){accountBackend='local';await startAccount(localUser(account));return}
     localStorage.removeItem(LOCAL_SESSION_KEY);
@@ -84,7 +89,13 @@ async function bootstrapAccount(){
     if(result.user){accountBackend='server';await startAccount(result.user);return}
     document.querySelector('#auth-message').textContent='';
     document.querySelector('#auth-username').focus();
-  }catch{
+  }catch(error){
+    if(API_BASE_URL){
+      accountBackend='server';
+      document.querySelector('#auth-explainer').textContent='Não foi possível conectar ao servidor de contas configurado.';
+      document.querySelector('#auth-message').textContent=`Falha na API: ${error.message}. Confira a URL e a configuração CORS do servidor.`;
+      return;
+    }
     accountBackend='local';
     document.querySelector('#auth-explainer').textContent='Modo hospedagem estática: crie uma conta local para salvar o progresso neste navegador.';
     document.querySelector('#auth-message').textContent='API de contas indisponível. Você pode criar uma conta local neste navegador.';
@@ -102,7 +113,7 @@ document.querySelector('#auth-form').addEventListener('submit',async event=>{
   try{
     let user;
     if(accountBackend==='local')user=await localAuth(username,password,authMode==='register');
-    else{const result=await apiRequest(`/api/auth/${authMode==='register'?'register':'login'}`,{method:'POST',body:JSON.stringify({username,password})});user=result.user}
+    else{const result=await apiRequest(`/api/auth/${authMode==='register'?'register':'login'}`,{method:'POST',body:JSON.stringify({username,password})});if(result.token&&API_BASE_URL)localStorage.setItem(API_TOKEN_KEY,result.token);user=result.user}
     await startAccount(user);
     document.querySelector('#auth-password').value='';
   }catch(error){document.querySelector('#auth-message').textContent=error.message}
@@ -113,7 +124,7 @@ document.querySelector('#auth-toggle').addEventListener('click',()=>setAuthMode(
 
 document.querySelector('#logout').addEventListener('click',async()=>{
   if(accountBackend==='local')localStorage.removeItem(LOCAL_SESSION_KEY);
-  else try{await apiRequest('/api/auth/logout',{method:'POST',body:'{}'})}catch{}
+  else try{await apiRequest('/api/auth/logout',{method:'POST',body:'{}'})}catch{}finally{localStorage.removeItem(API_TOKEN_KEY)}
   location.reload();
 });
 

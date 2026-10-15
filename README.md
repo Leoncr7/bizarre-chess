@@ -18,7 +18,11 @@ Abra [http://127.0.0.1:8000](http://127.0.0.1:8000). Para usar outra porta, acre
 
 ## Hospedagem estática (GitHub Pages)
 
-O site também pode ser publicado em hospedagens estáticas. Quando a API Python não estiver disponível, o login oferece contas locais com senha protegida por PBKDF2 e guarda o progresso no navegador atual. Essas contas e partidas não são compartilhadas entre dispositivos ou navegadores. Para contas sincronizadas entre dispositivos, use o servidor Python deste projeto.
+O site também pode ser publicado em hospedagens estáticas. Sem uma API configurada, o login oferece contas locais com senha protegida por PBKDF2 e guarda o progresso no navegador atual. Essas contas não são as mesmas do servidor Python e não são compartilhadas entre dispositivos.
+
+Para usar as contas do `server.py` no GitHub Pages, hospede também o servidor Python em um serviço que mantenha o processo ativo e preserve o arquivo SQLite. Este repositório inclui `render.yaml`: importe-o no Render para criar a API com disco persistente. O serviço e o disco exigem um plano pago no Render; o plano grátis não preserva o SQLite após reinicializações. Consulte [os limites do plano grátis](https://render.com/docs/free) e [as regras de discos persistentes](https://render.com/docs/disks).
+
+Depois de criar o serviço, configure `JOJO_CORS_ORIGINS` com a origem exata do GitHub Pages, por exemplo `https://seu-usuario.github.io` (sem caminho ou barra final). Copie a URL HTTPS pública da API para `content` da meta `jojo-api-base` no `index.html`. No Shell do serviço, execute `python server.py --create-admin` para criar ou redefinir a conta `leon` nesse banco. Publique a alteração do `index.html` no GitHub Pages; então o login usará essa API e poderá sincronizar o progresso.
 
 ## Contas, VIP e progresso
 

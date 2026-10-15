@@ -29,6 +29,10 @@ POWER_IDS = {"hamon", "arrow", "time", "crimson", "diamond", "killer"}
 LOGIN_ATTEMPTS: dict[str, list[float]] = {}
 
 
+def allowed_cors_origins() -> set[str]:
+    return {origin.strip().rstrip("/") for origin in os.environ.get("JOJO_CORS_ORIGINS", "").split(",") if origin.strip()}
+
+
 class ClosingConnection(sqlite3.Connection):
     def __exit__(self, exc_type, exc_value, traceback):
         try:
@@ -134,7 +138,23 @@ class ChessHandler(SimpleHTTPRequestHandler):
     def end_headers(self) -> None:
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Referrer-Policy", "same-origin")
+        origin = self.headers.get("Origin", "").rstrip("/")
+        if origin and origin in allowed_cors_origins():
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Vary", "Origin")
         super().end_headers()
+
+    def do_OPTIONS(self) -> None:
+        origin = self.headers.get("Origin", "").rstrip("/")
+        if not origin or origin not in allowed_cors_origins():
+            self.send_response(403)
+            self.end_headers()
+            return
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        self.send_header("Access-Control-Max-Age", "600")
+        self.end_headers()
 
     def _json(self, status: int, value: object, extra_headers: dict[str, str] | None = None) -> None:
         payload = json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
@@ -177,6 +197,9 @@ class ChessHandler(SimpleHTTPRequestHandler):
         return False
 
     def _session_token(self) -> str | None:
+        authorization = self.headers.get("Authorization", "")
+        if authorization.startswith("Bearer "):
+            return authorization[7:].strip() or None
         cookie = http.cookies.SimpleCookie()
         try:
             cookie.load(self.headers.get("Cookie", ""))
@@ -318,7 +341,11 @@ class ChessHandler(SimpleHTTPRequestHandler):
         token = self._create_session(user_id)
         with connect_db() as db:
             user = db.execute("SELECT * FROM users WHERE id=?", (user_id,)).fetchone()
-        self._json(200, {"user": public_user(user)}, {"Set-Cookie": self._session_cookie(token)})
+        result = {"user": public_user(user)}
+        origin = self.headers.get("Origin", "").rstrip("/")
+        if origin and origin in allowed_cors_origins():
+            result["token"] = token
+        self._json(200, result, {"Set-Cookie": self._session_cookie(token)})
 
     def do_PUT(self) -> None:
         if urlsplit(self.path).path != "/api/state":

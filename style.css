@@ -335,3 +335,12 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 #join-multiplayer-form{margin-top:14px;padding-top:8px;border-top:1px solid #514268}
 #multiplayer-dialog{max-height:calc(100dvh - 32px);overflow:auto}
 #multiplayer-code-input{text-transform:uppercase;letter-spacing:3px}
+.profile-photo-preview{display:block;width:92px;height:92px;margin:12px auto;border:3px solid #e0bd62;object-fit:cover;image-rendering:auto}
+#local-players-dialog .player-name-settings{margin:16px 0;grid-template-columns:repeat(2,minmax(0,1fr))}
+.admin-activation{margin:14px auto;max-width:520px;text-align:left}
+.admin-activation label{display:block;margin-bottom:6px;color:#c9a7dc;font:700 9px 'Barlow',Arial,sans-serif;letter-spacing:1px}
+.admin-activation>div{display:flex;flex-wrap:wrap;gap:7px}
+.admin-activation input{flex:1;min-width:150px;height:36px;padding:0 9px;border:2px solid #514268;background:#171321;color:#f6eff9;font:12px 'Courier New',monospace}
+.admin-activation input:focus{outline:2px solid var(--gold);outline-offset:2px}
+.admin-activation button{margin:0;padding:8px;font-size:8px}
+.admin-activation small{display:block;min-height:18px;margin-top:6px;color:#a99bb7;font:10px/1.4 'Courier New',monospace}

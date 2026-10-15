@@ -6,6 +6,8 @@ O jogo é estático e pode ser publicado diretamente no GitHub Pages. Não preci
 
 As contas são locais ao navegador: cada jogador cria sua conta no dispositivo que usa, e o progresso fica salvo nesse navegador. As antigas contas e o painel administrativo que dependiam do servidor Python não fazem parte desta versão estática.
 
+O campo **Código de administrador** ativa um painel local com a lista de contas deste navegador. Código de ativação: `JOTARO-STAR-PLATINUM-ADMIN`. Como o código fica no JavaScript público do Pages, esse painel é apenas demonstrativo e não oferece segurança real nem acesso administrativo compartilhado.
+
 ## Partidas 1 vs 1
 
 Escolha **1 vs 1 local** para jogar no mesmo dispositivo ou **Multiplayer** para jogar online. Em Multiplayer, uma pessoa cria a sala e compartilha o código; a outra informa esse código. O campo converte automaticamente letras minúsculas em maiúsculas. Os dois navegadores estabelecem uma conexão de dados WebRTC usando PeerJS. O código e o estado da partida não são armazenados por uma API do projeto.

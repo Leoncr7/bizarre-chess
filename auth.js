@@ -3,6 +3,7 @@ function accountDatabaseKey(kind){return`account:${currentUser.id}:${kind}`}
 
 let accountBackend='local';
 const LOCAL_ACCOUNTS_KEY='jojoChessLocalAccounts',LOCAL_SESSION_KEY='jojoChessLocalSession';
+const ADMIN_ACTIVATION_CODE='JOTARO-STAR-PLATINUM-ADMIN';
 
 function queueServerState(){return Promise.resolve()}
 function localAccounts(){try{const accounts=JSON.parse(localStorage.getItem(LOCAL_ACCOUNTS_KEY)||'[]');return Array.isArray(accounts)?accounts:[]}catch{return[]}}
@@ -15,7 +16,7 @@ async function hashLocalPassword(password,salt){
   return Array.from(new Uint8Array(bits),value=>value.toString(16).padStart(2,'0')).join('');
 }
 function equalHash(a,b){if(typeof a!=='string'||typeof b!=='string'||a.length!==b.length)return false;let difference=0;for(let i=0;i<a.length;i++)difference|=a.charCodeAt(i)^b.charCodeAt(i);return difference===0}
-function localUser(account){return{id:account.id,username:account.username,role:'user'}}
+function localUser(account){return{id:account.id,username:account.username,role:account.role==='admin'?'admin':'user'}}
 
 async function localAuth(username,password,registering){
   if(!/^[A-Za-z0-9_-]{3,24}$/.test(username))throw new Error('Use um nome de 3 a 24 caracteres, com letras, números, _ ou -.');
@@ -67,4 +68,18 @@ document.querySelector('#auth-form').addEventListener('submit',async event=>{
 
 document.querySelector('#auth-toggle').addEventListener('click',()=>setAuthMode(authMode==='login'?'register':'login'));
 document.querySelector('#logout').addEventListener('click',()=>{localStorage.removeItem(LOCAL_SESSION_KEY);location.reload()});
+document.querySelector('#activate-admin').addEventListener('click',()=>{
+  const message=document.querySelector('#admin-activation-message'),code=document.querySelector('#admin-code-input').value.trim().toUpperCase();
+  if(code!==ADMIN_ACTIVATION_CODE){message.textContent='Código incorreto.';return}
+  const accounts=localAccounts(),account=accounts.find(item=>item.id===currentUser?.id);
+  if(!account){message.textContent='Entre em uma conta local antes de ativar o administrador.';return}
+  account.role='admin';saveLocalAccounts(accounts);currentUser.role='admin';document.querySelector('#admin-code-input').value='';message.textContent='Administrador local ativado neste navegador.';document.querySelector('#open-local-admin').hidden=false;
+});
+document.querySelector('#admin-code-input').addEventListener('input',event=>{event.currentTarget.value=event.currentTarget.value.toUpperCase()});
+document.querySelector('#open-local-admin').addEventListener('click',()=>{
+  const list=document.querySelector('#local-admin-users');list.replaceChildren();
+  for(const account of localAccounts()){const item=document.createElement('li'),name=document.createElement('strong'),meta=document.createElement('small');name.textContent=account.username;meta.textContent=`${account.role==='admin'?'ADMIN LOCAL':'JOGADOR'} · NESTE NAVEGADOR`;item.append(name,meta);list.appendChild(item)}
+  document.querySelector('#local-admin-dialog').showModal();
+});
+document.querySelector('#close-local-admin').addEventListener('click',()=>document.querySelector('#local-admin-dialog').close());
 bootstrapAccount();

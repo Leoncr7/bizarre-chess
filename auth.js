@@ -73,7 +73,7 @@ document.querySelector('#activate-admin').addEventListener('click',()=>{
   if(code!==ADMIN_ACTIVATION_CODE){message.textContent='Código incorreto.';return}
   const accounts=localAccounts(),account=accounts.find(item=>item.id===currentUser?.id);
   if(!account){message.textContent='Entre em uma conta local antes de ativar o administrador.';return}
-  account.role='admin';saveLocalAccounts(accounts);currentUser.role='admin';document.querySelector('#admin-code-input').value='';message.textContent='Administrador local ativado neste navegador.';document.querySelector('#open-local-admin').hidden=false;
+  account.role='admin';saveLocalAccounts(accounts);currentUser.role='admin';loadProfile();saveProfile();updateCoinDisplay();renderShop();render();document.querySelector('#admin-code-input').value='';message.textContent='Administrador local ativado neste navegador.';document.querySelector('#open-local-admin').hidden=false;
 });
 document.querySelector('#admin-code-input').addEventListener('input',event=>{event.currentTarget.value=event.currentTarget.value.toUpperCase()});
 document.querySelector('#open-local-admin').addEventListener('click',()=>{

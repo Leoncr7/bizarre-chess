@@ -79,6 +79,15 @@ def initialize_database() -> None:
                 active_match_json TEXT,
                 updated_at TEXT NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS multiplayer_rooms (
+                code TEXT PRIMARY KEY,
+                host_user_id INTEGER NOT NULL REFERENCES users(id),
+                guest_user_id INTEGER REFERENCES users(id),
+                state_json TEXT NOT NULL,
+                revision INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            );
             """
         )
 
@@ -228,6 +237,25 @@ class ChessHandler(SimpleHTTPRequestHandler):
             self._json(401, {"error": "Entre na sua conta para continuar."})
         return user
 
+    def _room_json(self, db: sqlite3.Connection, code: str) -> dict | None:
+        row = db.execute(
+            "SELECT r.*,host.username AS host_name,guest.username AS guest_name "
+            "FROM multiplayer_rooms r JOIN users host ON host.id=r.host_user_id "
+            "LEFT JOIN users guest ON guest.id=r.guest_user_id WHERE r.code=?",
+            (code,),
+        ).fetchone()
+        if row is None:
+            return None
+        return {
+            "code": row["code"],
+            "hostId": row["host_user_id"],
+            "guestId": row["guest_user_id"],
+            "hostName": row["host_name"],
+            "guestName": row["guest_name"],
+            "state": json.loads(row["state_json"]),
+            "revision": row["revision"],
+        }
+
     def _create_session(self, user_id: int) -> str:
         token = secrets.token_urlsafe(32)
         now = int(time.time())
@@ -245,6 +273,24 @@ class ChessHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
+        if path.startswith("/api/rooms/"):
+            user = self._require_user()
+            if user is None:
+                return
+            code = path.removeprefix("/api/rooms/").upper()
+            if not re.fullmatch(r"[A-Z0-9]{6}", code):
+                self._json(400, {"error": "Código de sala inválido."})
+                return
+            with connect_db() as db:
+                room = self._room_json(db, code)
+            if room is None:
+                self._json(404, {"error": "Sala não encontrada."})
+                return
+            if user["id"] not in {room["hostId"], room["guestId"]}:
+                self._json(403, {"error": "Você não participa desta sala."})
+                return
+            self._json(200, {"room": room})
+            return
         if path == "/api/auth/me":
             user = self._current_user()
             self._json(200, {"user": public_user(user) if user else None})
@@ -276,13 +322,72 @@ class ChessHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self) -> None:
         path = urlsplit(self.path).path
-        if path not in {"/api/auth/register", "/api/auth/login", "/api/auth/logout"}:
+        if path not in {"/api/auth/register", "/api/auth/login", "/api/auth/logout", "/api/rooms", "/api/rooms/join"}:
             self._json(404, {"error": "Rota não encontrada."})
             return
         try:
             body = self._body()
         except ValueError as error:
             self._json(400, {"error": str(error)})
+            return
+
+        if path in {"/api/rooms", "/api/rooms/join"}:
+            user = self._require_user()
+            if user is None:
+                return
+            if path == "/api/rooms":
+                state = body.get("state")
+                if not isinstance(state, dict) or state.get("version") != 1 or state.get("mode") != "multiplayer" or state.get("turn") != "w":
+                    self._json(400, {"error": "Estado inicial da partida inválido."})
+                    return
+                code_alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"
+                with connect_db() as db:
+                    for _ in range(10):
+                        code = "".join(secrets.choice(code_alphabet) for _ in range(6))
+                        try:
+                            db.execute(
+                                "INSERT INTO multiplayer_rooms(code,host_user_id,state_json,created_at,updated_at) VALUES(?,?,?,?,?)",
+                                (code, user["id"], json.dumps(state, ensure_ascii=False, separators=(",", ":")), now_iso(), now_iso()),
+                            )
+                            break
+                        except sqlite3.IntegrityError:
+                            code = ""
+                    if not code:
+                        self._json(503, {"error": "Não foi possível gerar um código. Tente novamente."})
+                        return
+                    room = self._room_json(db, code)
+                self._json(201, {"room": room})
+                return
+
+            code = str(body.get("code", "")).strip().upper()
+            character = str(body.get("character", "jolyne"))
+            if not re.fullmatch(r"[A-Z0-9]{6}", code):
+                self._json(400, {"error": "Informe um código de sala válido."})
+                return
+            if character not in {"jotaro", "jolyne", "dio", "kars", "kira", "diavolo", "pucci", "valentine"}:
+                self._json(400, {"error": "Foto de personagem inválida."})
+                return
+            with connect_db() as db:
+                row = db.execute("SELECT * FROM multiplayer_rooms WHERE code=?", (code,)).fetchone()
+                if row is None:
+                    self._json(404, {"error": "Sala não encontrada. Confira o código."})
+                    return
+                if row["host_user_id"] == user["id"]:
+                    self._json(400, {"error": "Entre com outra conta para jogar contra alguém."})
+                    return
+                if row["guest_user_id"] not in (None, user["id"]):
+                    self._json(409, {"error": "Esta sala já tem dois jogadores."})
+                    return
+                if row["guest_user_id"] is None:
+                    state = json.loads(row["state_json"])
+                    state.setdefault("playerNames", {})["b"] = user["username"]
+                    state.setdefault("playerCharacters", {})["b"] = character
+                    db.execute(
+                        "UPDATE multiplayer_rooms SET guest_user_id=?,state_json=?,revision=revision+1,updated_at=? WHERE code=?",
+                        (user["id"], json.dumps(state, ensure_ascii=False, separators=(",", ":")), now_iso(), code),
+                    )
+                room = self._room_json(db, code)
+            self._json(200, {"room": room})
             return
 
         if path == "/api/auth/logout":
@@ -348,7 +453,55 @@ class ChessHandler(SimpleHTTPRequestHandler):
         self._json(200, result, {"Set-Cookie": self._session_cookie(token)})
 
     def do_PUT(self) -> None:
-        if urlsplit(self.path).path != "/api/state":
+        path = urlsplit(self.path).path
+        if re.fullmatch(r"/api/rooms/[A-Za-z0-9]{6}", path):
+            user = self._require_user()
+            if user is None:
+                return
+            code = path.rsplit("/", 1)[-1].upper()
+            try:
+                body = self._body()
+            except ValueError as error:
+                self._json(400, {"error": str(error)})
+                return
+            state = body.get("state")
+            revision = body.get("revision")
+            if not isinstance(state, dict) or state.get("version") != 1 or state.get("mode") != "multiplayer" or state.get("turn") not in {"w", "b"}:
+                self._json(400, {"error": "Estado da partida inválido."})
+                return
+            if not isinstance(revision, int) or isinstance(revision, bool) or revision < 0:
+                self._json(400, {"error": "Revisão da partida inválida."})
+                return
+            with connect_db() as db:
+                row = db.execute("SELECT * FROM multiplayer_rooms WHERE code=?", (code,)).fetchone()
+                if row is None:
+                    self._json(404, {"error": "Sala não encontrada."})
+                    return
+                if user["id"] not in {row["host_user_id"], row["guest_user_id"]}:
+                    self._json(403, {"error": "Você não participa desta sala."})
+                    return
+                if row["guest_user_id"] is None:
+                    self._json(409, {"error": "Aguardando o segundo jogador."})
+                    return
+                current_state = json.loads(row["state_json"])
+                if revision != row["revision"]:
+                    self._json(409, {"error": "A partida recebeu uma atualização mais recente.", "room": self._room_json(db, code)})
+                    return
+                player_side = "w" if user["id"] == row["host_user_id"] else "b"
+                if current_state.get("turn") != player_side:
+                    self._json(403, {"error": "Ainda não é o seu turno."})
+                    return
+                if state.get("playerNames") != current_state.get("playerNames") or state.get("playerCharacters") != current_state.get("playerCharacters"):
+                    self._json(400, {"error": "Os nomes e personagens desta sala não podem ser alterados durante a partida."})
+                    return
+                db.execute(
+                    "UPDATE multiplayer_rooms SET state_json=?,revision=revision+1,updated_at=? WHERE code=? AND revision=?",
+                    (json.dumps(state, ensure_ascii=False, separators=(",", ":")), now_iso(), code, revision),
+                )
+                room = self._room_json(db, code)
+            self._json(200, {"room": room})
+            return
+        if path != "/api/state":
             self._json(404, {"error": "Rota não encontrada."})
             return
         user = self._require_user()

@@ -24,6 +24,10 @@ Para usar as contas do `server.py` no GitHub Pages, hospede também o servidor P
 
 Depois de criar o serviço, configure `JOJO_CORS_ORIGINS` com a origem exata do GitHub Pages, por exemplo `https://seu-usuario.github.io` (sem caminho ou barra final). Copie a URL HTTPS pública da API para `content` da meta `jojo-api-base` no `index.html`. No Shell do serviço, execute `python server.py --create-admin` para criar ou redefinir a conta `leon` nesse banco. Publique a alteração do `index.html` no GitHub Pages; então o login usará essa API e poderá sincronizar o progresso.
 
+## Partidas 1 vs 1
+
+No menu, escolha **1 vs 1 local** para jogar no mesmo dispositivo ou **Multiplayer** para jogar online. No multiplayer, o jogador conectado cria uma sala e compartilha o código de seis caracteres; o adversário entra com uma conta no mesmo servidor e informa esse código. Cada lado recebe um poder aleatório, e a câmera permanece fixa para os dois jogadores. O multiplayer exige a API `server.py` acessível aos dois jogadores; contas locais do navegador, sozinhas, não conectam dispositivos diferentes.
+
 ## Contas, VIP e progresso
 
 Jogadores podem criar uma conta com nome de 3 a 24 caracteres (letras, números, `_` ou `-`) e senha de 10 a 128 caracteres. Moedas, poderes desbloqueados e partidas em andamento são vinculados à conta e guardados no SQLite em `data/jojo_chess.sqlite3`, permitindo retomar o progresso ao entrar em outro navegador conectado ao mesmo servidor.

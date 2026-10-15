@@ -151,6 +151,33 @@ body{background-color:#100f1d;background-image:linear-gradient(90deg,#ffffff05 1
 button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 @media(max-width:640px){.intro h1{font-size:18px}.edition{font-size:6px}.menu-options button strong{font-size:10px}}
 
+/* Menu mais fácil de tocar e preferências de áudio/efeitos */
+.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.topbar .edition{margin-left:auto}
+.settings-open-button{min-height:46px;padding:0 14px;border:3px solid #514268;background:#1d1a31;color:#ffe994;font:8px 'Press Start 2P','Courier New',monospace;cursor:pointer;box-shadow:3px 3px 0 #090812;touch-action:manipulation}
+.settings-open-button:hover{border-color:var(--gold);background:#292343}
+.menu-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:24px}
+.menu-options button{min-height:112px;padding:18px;touch-action:manipulation}
+.menu-secondary-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+.menu-secondary-actions button{width:100%;min-height:50px;margin:0;padding:10px;line-height:1.7;touch-action:manipulation}
+.menu-account-settings{margin-top:16px;border-top:2px solid #514268;text-align:left}
+.menu-account-settings summary{display:flex;align-items:center;min-height:50px;padding:0 8px;color:#c9a7dc;font:8px 'Press Start 2P','Courier New',monospace;cursor:pointer;touch-action:manipulation}
+.menu-account-content{padding:4px 8px 10px}
+.account-tools{flex-wrap:wrap}
+.account-tools button{min-height:44px}
+.admin-activation input,.admin-activation button{min-height:44px}
+.settings-dialog{max-width:440px}
+.settings-dialog label[for="power-volume"]{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:20px 0 8px}
+.settings-dialog output{color:#fff0a6;font:12px 'Courier New',monospace}
+.settings-dialog .volume-slider{display:block;width:100%;height:38px;margin:0;padding:0;border:0;background:transparent;accent-color:#d69bc9;cursor:pointer}
+.settings-range-labels{display:flex;justify-content:space-between;color:#b5a9bf;font:10px 'Courier New',monospace}
+.settings-dialog .settings-toggle{display:flex;align-items:center;gap:12px;min-height:54px;margin:18px 0 10px;padding:8px 10px;border:2px solid #514268;color:#f1e8f4;font:10px/1.6 'Courier New',monospace;cursor:pointer}
+.settings-dialog .settings-toggle input{flex:0 0 24px;width:24px;height:24px;margin:0;padding:0;border:0;background:transparent;accent-color:#d69bc9;cursor:pointer}
+.settings-dialog .auth-toggle{min-height:48px}
+body.power-effects-disabled .power-effect.active{display:none!important}
+@media(max-width:640px){.topbar{gap:8px}.topbar .edition{margin-left:0}.settings-open-button{margin-left:auto;min-height:48px;padding:0 10px}.game-menu{padding:22px 14px}.menu-options{grid-template-columns:1fr;gap:10px}.menu-options button{min-height:88px;padding:14px}.menu-secondary-actions{grid-template-columns:1fr}.menu-secondary-actions button{min-height:50px}.menu-account-settings summary{min-height:52px}.account-tools{gap:8px}.settings-open-button span{font-size:7px}}
+@media(max-width:380px){.topbar .edition{order:3;width:100%}.settings-open-button{font-size:7px}.menu-options button{min-height:84px}}
+
 /* Retratos pixelados dos personagens e efeitos dos Stands */
 .player-bar{height:60px;gap:12px}
 .avatar{width:48px;height:48px;flex:0 0 48px;padding:2px;overflow:hidden;background:#201a2e}

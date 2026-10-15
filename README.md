@@ -16,6 +16,10 @@ python3 server.py
 
 Abra [http://127.0.0.1:8000](http://127.0.0.1:8000). Para usar outra porta, acrescente `--port 8080`. Para permitir acesso de outros dispositivos na mesma rede, inicie com `python3 server.py --host 0.0.0.0 --port 8000` e abra `http://IP-DO-COMPUTADOR:8000` nos outros dispositivos.
 
+## Hospedagem estática (GitHub Pages)
+
+O site também pode ser publicado em hospedagens estáticas. Quando a API Python não estiver disponível, o login oferece contas locais com senha protegida por PBKDF2 e guarda o progresso no navegador atual. Essas contas e partidas não são compartilhadas entre dispositivos ou navegadores. Para contas sincronizadas entre dispositivos, use o servidor Python deste projeto.
+
 ## Contas, VIP e progresso
 
 Jogadores podem criar uma conta com nome de 3 a 24 caracteres (letras, números, `_` ou `-`) e senha de 10 a 128 caracteres. Moedas, poderes desbloqueados e partidas em andamento são vinculados à conta e guardados no SQLite em `data/jojo_chess.sqlite3`, permitindo retomar o progresso ao entrar em outro navegador conectado ao mesmo servidor.

@@ -1,31 +1,10 @@
 function accountStorageKey(kind){return`jojoChess:${currentUser.id}:${kind}`}
 function accountDatabaseKey(kind){return`account:${currentUser.id}:${kind}`}
 
-let accountBackend='server';
+let accountBackend='local';
 const LOCAL_ACCOUNTS_KEY='jojoChessLocalAccounts',LOCAL_SESSION_KEY='jojoChessLocalSession';
-const API_BASE_URL=(document.querySelector('meta[name="jojo-api-base"]')?.content||'').trim().replace(/\/$/,'');
-const API_TOKEN_KEY='jojoChessApiToken';
 
-async function apiRequest(path,options={}){
-  const headers={...(options.body?{'Content-Type':'application/json'}:{}),...(options.headers||{})};
-  const apiUrl=`${API_BASE_URL}${path}`;
-  const token=API_BASE_URL?localStorage.getItem(API_TOKEN_KEY):null;
-  if(token)headers.Authorization=`Bearer ${token}`;
-  const response=await fetch(apiUrl,{credentials:API_BASE_URL?'omit':'same-origin',...options,headers});
-  let result={};
-  try{result=await response.json()}catch{}
-  if(!response.ok)throw new Error(result.error||'Não foi possível concluir o pedido.');
-  return result;
-}
-
-function queueServerState(partial){
-  if(!currentUser||accountBackend!=='server')return Promise.resolve();
-  serverSaveQueue=serverSaveQueue.then(()=>apiRequest('/api/state',{method:'PUT',body:JSON.stringify(partial)}))
-    .then(()=>{const status=document.querySelector('#account-save-status');if(status)status.textContent='Progresso sincronizado com a conta'})
-    .catch(()=>{const status=document.querySelector('#account-save-status');if(status)status.textContent='Salvo neste navegador · sincronização indisponível'});
-  return serverSaveQueue;
-}
-
+function queueServerState(){return Promise.resolve()}
 function localAccounts(){try{const accounts=JSON.parse(localStorage.getItem(LOCAL_ACCOUNTS_KEY)||'[]');return Array.isArray(accounts)?accounts:[]}catch{return[]}}
 function saveLocalAccounts(accounts){localStorage.setItem(LOCAL_ACCOUNTS_KEY,JSON.stringify(accounts))}
 function randomHex(size){const bytes=crypto.getRandomValues(new Uint8Array(size));return Array.from(bytes,value=>value.toString(16).padStart(2,'0')).join('')}
@@ -47,26 +26,22 @@ async function localAuth(username,password,registering){
     const salt=randomHex(16),account={id:`local-${randomHex(16)}`,username,salt,hash:await hashLocalPassword(password,salt),createdAt:new Date().toISOString()};
     accounts.push(account);saveLocalAccounts(accounts);localStorage.setItem(LOCAL_SESSION_KEY,account.id);return localUser(account);
   }
-  if(!existing||!equalHash(await hashLocalPassword(password,existing.salt),existing.hash))throw new Error('Conta local ou senha incorretas neste navegador. A conta do server.py só pode entrar quando o site está conectado à API do servidor.');
+  if(!existing||!equalHash(await hashLocalPassword(password,existing.salt),existing.hash))throw new Error('Conta local ou senha incorretas neste navegador. Crie uma conta neste navegador para continuar.');
   localStorage.setItem(LOCAL_SESSION_KEY,existing.id);return localUser(existing);
 }
 
-async function startAccount(user,stateOverride=null){
-  currentUser=user;
-  updateCoinDisplay();
-  document.querySelector('#account-save-status').textContent=accountBackend==='server'?'Carregando progresso da conta…':'Conta local · progresso salvo neste navegador';
-  const state=stateOverride??(accountBackend==='server'?await apiRequest('/api/state'):{profile:null,activeMatch:null});
-  await initializeSavedGame(state);
+async function startAccount(user){
+  currentUser=user;updateCoinDisplay();
+  document.querySelector('#account-save-status').textContent='Carregando progresso salvo neste navegador…';
+  await initializeSavedGame({profile:null,activeMatch:null});
   document.querySelector('#auth-dialog').close();
-  const note=document.querySelector('.save-note');
-  if(note)note.textContent=accountBackend==='server'?'PROGRESSO SINCRONIZADO COM A CONTA':'CONTA LOCAL · DADOS NESTE NAVEGADOR';
+  const note=document.querySelector('.save-note');if(note)note.textContent='CONTA LOCAL · DADOS NESTE NAVEGADOR';
 }
 
 function setAuthMode(next){
-  authMode=next;
-  const registering=authMode==='register';
+  authMode=next;const registering=authMode==='register';
   document.querySelector('#auth-title').textContent=registering?'Criar conta':'Entrar';
-  document.querySelector('#auth-explainer').textContent=accountBackend==='local'?'Hospedagem estática: contas locais valem apenas neste navegador. A conta do server.py precisa da API do servidor.':registering?'Crie uma conta para salvar seu progresso. Use uma senha com pelo menos 10 caracteres.':'Entre para acessar e salvar seu progresso.';
+  document.querySelector('#auth-explainer').textContent=registering?'Crie uma conta local para salvar seu progresso neste navegador.':'Entre na conta local salva neste navegador. Para jogar online, cada participante usa sua própria conta local.';
   document.querySelector('#auth-submit').textContent=registering?'CRIAR CONTA':'ENTRAR';
   document.querySelector('#auth-toggle').textContent=registering?'JÁ TENHO CONTA':'CRIAR CONTA';
   document.querySelector('#auth-password').autocomplete=registering?'new-password':'current-password';
@@ -74,81 +49,22 @@ function setAuthMode(next){
 }
 
 async function bootstrapAccount(){
-  setAuthMode('login');
-  const dialog=document.querySelector('#auth-dialog');
-  dialog.showModal();
-  const sessionId=localStorage.getItem(LOCAL_SESSION_KEY);
-  if(sessionId&&!API_BASE_URL){
-    const account=localAccounts().find(item=>item.id===sessionId);
-    if(account){accountBackend='local';await startAccount(localUser(account));return}
-    localStorage.removeItem(LOCAL_SESSION_KEY);
-  }
-  document.querySelector('#auth-message').textContent='Verificando sessão…';
-  try{
-    const result=await apiRequest('/api/auth/me');
-    if(result.user){accountBackend='server';await startAccount(result.user);return}
-    document.querySelector('#auth-message').textContent='';
-    document.querySelector('#auth-username').focus();
-  }catch(error){
-    if(API_BASE_URL){
-      accountBackend='server';
-      document.querySelector('#auth-explainer').textContent='Não foi possível conectar ao servidor de contas configurado.';
-      document.querySelector('#auth-message').textContent=`Falha na API: ${error.message}. Confira a URL e a configuração CORS do servidor.`;
-      return;
-    }
-    accountBackend='local';
-    document.querySelector('#auth-explainer').textContent='Modo hospedagem estática: crie uma conta local para salvar o progresso neste navegador.';
-    document.querySelector('#auth-message').textContent='API de contas indisponível. Você pode criar uma conta local neste navegador.';
-    document.querySelector('#auth-username').focus();
-  }
+  setAuthMode('login');const dialog=document.querySelector('#auth-dialog');dialog.showModal();
+  const sessionId=localStorage.getItem(LOCAL_SESSION_KEY),account=localAccounts().find(item=>item.id===sessionId);
+  if(account){await startAccount(localUser(account));return}
+  if(sessionId)localStorage.removeItem(LOCAL_SESSION_KEY);
+  document.querySelector('#auth-explainer').textContent='Crie uma conta local para salvar seu progresso neste navegador. As partidas online usam uma conexão direta entre os navegadores.';
+  document.querySelector('#auth-message').textContent='';document.querySelector('#auth-username').focus();
 }
 
 document.querySelector('#auth-form').addEventListener('submit',async event=>{
-  event.preventDefault();
-  const username=document.querySelector('#auth-username').value.trim();
-  const password=document.querySelector('#auth-password').value;
-  const submit=document.querySelector('#auth-submit');
-  submit.disabled=true;
-  document.querySelector('#auth-message').textContent=authMode==='register'?'Criando conta…':'Entrando…';
-  try{
-    let user;
-    if(accountBackend==='local')user=await localAuth(username,password,authMode==='register');
-    else{const result=await apiRequest(`/api/auth/${authMode==='register'?'register':'login'}`,{method:'POST',body:JSON.stringify({username,password})});if(result.token&&API_BASE_URL)localStorage.setItem(API_TOKEN_KEY,result.token);user=result.user}
-    await startAccount(user);
-    document.querySelector('#auth-password').value='';
-  }catch(error){document.querySelector('#auth-message').textContent=error.message}
+  event.preventDefault();const username=document.querySelector('#auth-username').value.trim(),password=document.querySelector('#auth-password').value,submit=document.querySelector('#auth-submit');
+  submit.disabled=true;document.querySelector('#auth-message').textContent=authMode==='register'?'Criando conta…':'Entrando…';
+  try{await startAccount(await localAuth(username,password,authMode==='register'));document.querySelector('#auth-password').value=''}
+  catch(error){document.querySelector('#auth-message').textContent=error.message}
   finally{submit.disabled=false}
 });
 
 document.querySelector('#auth-toggle').addEventListener('click',()=>setAuthMode(authMode==='login'?'register':'login'));
-
-document.querySelector('#logout').addEventListener('click',async()=>{
-  if(accountBackend==='local')localStorage.removeItem(LOCAL_SESSION_KEY);
-  else try{await apiRequest('/api/auth/logout',{method:'POST',body:'{}'})}catch{}finally{localStorage.removeItem(API_TOKEN_KEY)}
-  location.reload();
-});
-
-async function openAdminPanel(){
-  const dialog=document.querySelector('#vip-dialog'),message=document.querySelector('#vip-message'),list=document.querySelector('#vip-users');
-  list.replaceChildren();
-  message.textContent='Carregando registros…';
-  dialog.showModal();
-  try{
-    const result=await apiRequest('/api/admin/users');
-    message.textContent=`${result.users.length} conta(s) cadastrada(s). Senhas e hashes não são exibidos.`;
-    for(const user of result.users){
-      const item=document.createElement('li'),name=document.createElement('strong'),meta=document.createElement('small');
-      name.textContent=user.username;
-      const created=new Date(user.created_at).toLocaleDateString('pt-BR');
-      const lastLogin=user.last_login?new Date(user.last_login).toLocaleDateString('pt-BR'):'ainda não entrou';
-      meta.textContent=`${user.role==='admin'?'ADMIN':'JOGADOR'} · CADASTRO ${created} · ÚLTIMO ACESSO ${lastLogin}`;
-      item.append(name,meta);
-      list.appendChild(item);
-    }
-  }catch(error){message.textContent=accountBackend==='local'?'O painel VIP requer o servidor de contas.':error.message}
-}
-
-document.querySelector('#open-vip').addEventListener('click',openAdminPanel);
-document.querySelector('#vip-close').addEventListener('click',()=>document.querySelector('#vip-dialog').close());
-
+document.querySelector('#logout').addEventListener('click',()=>{localStorage.removeItem(LOCAL_SESSION_KEY);location.reload()});
 bootstrapAccount();

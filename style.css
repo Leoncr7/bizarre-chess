@@ -326,6 +326,19 @@ body.power-effects-disabled .power-effect.active{display:none!important}
 @keyframes dimension-portal{to{transform:scaleX(.25) rotate(45deg);opacity:.35}}
 @media(prefers-reduced-motion:reduce){.power-effect.active{animation:none!important;opacity:1!important;transform:none!important}.power-effect::before,.power-effect::after,.effect-glyph{animation-duration:1ms!important;animation-iteration-count:1!important}}
 
+/* Promotion picker */
+.promotion-dialog{width:min(480px,calc(100vw - 32px));padding:24px;border:1px solid #b69aff66;border-radius:12px;background:linear-gradient(145deg,#29213a,#171321);color:var(--ink);box-shadow:0 24px 80px #000c}
+.promotion-dialog::backdrop{background:#090711d9;backdrop-filter:blur(5px)}
+.promotion-kicker{margin-bottom:10px;color:#d7a9df;font:800 9px 'Barlow',Arial,sans-serif;letter-spacing:1.8px}
+.promotion-dialog h2#promotion-title{margin:0;font:700 25px/1.1 'Barlow Condensed',sans-serif;letter-spacing:.2px;color:#fff2ce}
+.promotion-dialog p{margin:7px 0 20px;color:#bdb2c8;font:13px/1.45 'Barlow',Arial,sans-serif}
+.promotion-options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.promotion-options button{min-width:0;height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px;border:1px solid #ffffff24;border-radius:8px;background:#ffffff08;color:#f9efd8;box-shadow:none;font:inherit;cursor:pointer;transition:transform .15s ease,border-color .15s ease,background .15s ease}
+.promotion-options button:hover,.promotion-options button:focus-visible{transform:translateY(-2px);border-color:#efc96c;background:#efc96c17;outline:none}
+.promotion-symbol{font:56px/1 'Barlow Condensed',serif;color:#fff2d5;text-shadow:0 2px 0 #5a486a,0 4px 12px #0008}
+.promotion-name{color:#d5c9dc;font:700 11px 'Barlow',Arial,sans-serif;letter-spacing:.4px}
+@media(max-width:380px){.promotion-dialog{padding:19px 16px}.promotion-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.promotion-options button{height:82px;flex-direction:row;gap:9px}.promotion-symbol{font-size:44px}.promotion-name{font-size:12px}}
+
 /* Pixel icons and a distinct motion language for each Stand ability. */
 .stand-icon{display:block;width:26px;height:26px;shape-rendering:crispEdges;image-rendering:pixelated;fill:currentColor}
 .power-icon .stand-icon,.shop-item-icon .stand-icon{width:27px;height:27px}

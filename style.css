@@ -349,6 +349,25 @@ body.power-effects-disabled .power-effect.active{display:none!important}
 .result-overlay.is-draw h2{color:#d1bdff;text-shadow:4px 4px #34274e}
 @keyframes result-enter{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(prefers-reduced-motion:reduce){.result-card{animation:none}}
+
+.tutorial-menu-open{width:100%;min-height:48px;margin:15px 0 0;padding:11px;line-height:1.8}
+.tutorial-game-open{margin:14px 0 6px;min-height:38px}
+.tutorial-dialog{width:min(600px,calc(100vw - 28px));max-height:min(88vh,760px);overflow:auto;padding:clamp(20px,4vw,32px);border:4px solid #80649a;background:#1d1a31;color:var(--ink);box-shadow:8px 8px 0 #090812}
+.tutorial-dialog::backdrop{background:#090711e8;backdrop-filter:blur(3px)}
+.tutorial-kicker{font:8px/1.8 'Press Start 2P','Courier New',monospace;letter-spacing:.4px;color:#d1a9e8}
+.tutorial-progress{height:10px;margin:12px 0 22px;border:2px solid #514268;background:#100f1d}
+.tutorial-progress span{display:block;width:14.285%;height:100%;background:var(--gold);transition:width .2s ease}
+.tutorial-dialog h2{margin:0 0 14px;color:#ffe994;font:clamp(13px,3vw,17px)/1.8 'Press Start 2P','Courier New',monospace}
+.tutorial-dialog>p{margin:0 0 18px;color:#e0d5e8;font:15px/1.55 Barlow,Arial,sans-serif}
+.tutorial-content{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+.tutorial-content li{display:grid;gap:5px;padding:11px 13px;border-left:4px solid #b69aff;background:#ffffff08}
+.tutorial-content strong{color:var(--gold);font:700 13px 'Barlow Condensed',sans-serif;letter-spacing:.7px;text-transform:uppercase}
+.tutorial-content span{color:#c7bdcf;font:14px/1.45 Barlow,Arial,sans-serif}
+.tutorial-controls{display:grid;grid-template-columns:1fr 1.5fr;gap:12px;margin-top:20px}
+.tutorial-controls button{min-height:42px;margin:0;padding:8px;line-height:1.8}
+.tutorial-controls button:disabled{opacity:.4;cursor:not-allowed}
+.tutorial-close{width:100%;min-height:40px;margin-top:12px}
+@media(max-width:520px){.tutorial-dialog{padding:19px 14px}.tutorial-kicker{font-size:7px}.tutorial-dialog>p{font-size:14px}.tutorial-content li{padding:10px}.tutorial-content span{font-size:13px}.tutorial-controls{gap:8px}.tutorial-controls button{font-size:6px}}
 .save-note{margin:10px auto 0!important;color:#a99bb7!important;font:7px/1.8 'Press Start 2P','Courier New',monospace!important;letter-spacing:.4px}
 .account-tools{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px auto;color:#c9a7dc;font:8px 'Press Start 2P','Courier New',monospace}.account-tools .reset-button{margin:0;padding:7px 10px;font-size:7px}
 .account-save-status{display:block;min-height:12px;color:#8cae9a;font:9px 'Courier New',monospace;text-align:center}

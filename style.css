@@ -253,13 +253,11 @@ body.power-effects-disabled .power-effect.active{display:none!important}
 .piece-sprite{display:block;width:90%;height:90%;aspect-ratio:1/1;object-fit:contain;overflow:visible;image-rendering:pixelated}
 .piece-sprite.white{filter:drop-shadow(0 0 1px #34233e)}
 .piece-sprite.black{filter:drop-shadow(0 0 1px #f0d58f)}
-.piece-sprite.knight-fallback{filter:grayscale(1) brightness(.42) contrast(1.3) drop-shadow(0 0 1px #f0d58f)}
 .drag-ghost.white{--piece-outline:#48304d;--piece-accent:#fff9e7}
 .drag-ghost.black{--piece-outline:#e8cf98;--piece-accent:#d7a1cf}
 .drag-ghost .ghost-pixel{display:block;width:90%;height:90%;object-fit:contain;image-rendering:pixelated}
 .drag-ghost.white .ghost-pixel{filter:drop-shadow(0 0 1px #34233e)}
 .drag-ghost.black .ghost-pixel{filter:drop-shadow(0 0 1px #f0d58f)}
-.drag-ghost.black .ghost-pixel.knight-fallback{filter:grayscale(1) brightness(.42) contrast(1.3) drop-shadow(0 0 1px #f0d58f)}
 .square .piece-sprite{pointer-events:none}
 .power-effect.character-dio{color:#9de9ff;background:#163b785c}
 .power-effect.character-dio::before{inset:0;background:linear-gradient(90deg,transparent 49%,#c6f5ff99 50%,transparent 51%),linear-gradient(0deg,transparent 49%,#c6f5ff77 50%,transparent 51%);background-size:24px 24px;animation:dio-freeze .35s steps(2,end) infinite}

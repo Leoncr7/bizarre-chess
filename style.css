@@ -464,3 +464,4 @@ body.power-effects-disabled .power-effect.active{display:none!important}
 .chart-zero{stroke:#c4b5d4;stroke-width:1.5;stroke-dasharray:5 4}
 .chart-point{stroke:#171321;stroke-width:2;cursor:pointer;transition:r .12s ease,stroke-width .12s ease}
 .chart-point:hover,.chart-point:focus-visible,.chart-point.selected{stroke:#fff;stroke-width:3;outline:none}
+.chart-key i.power,.chart-point.power{color:#c78bff;fill:#c78bff}

@@ -448,3 +448,19 @@ body.power-effects-disabled .power-effect.active{display:none!important}
 @media(max-width:760px){.game{align-items:start}.side-panel{align-self:stretch;min-height:0}}
 
 .review-rating.power{background:#554477;color:#ffe994}
+
+/* Legenda e pontos do gráfico de revisão usam a mesma cor por classificação. */
+.review-legend{display:flex;flex-wrap:wrap;gap:8px 12px;margin-top:10px}
+.chart-key{display:inline-flex;align-items:center;gap:6px;color:#d8d0e1;font:10px/1.4 Barlow,Arial,sans-serif}
+.chart-key i{display:inline-block;width:10px;height:10px;border:2px solid currentColor;border-radius:50%;background:currentColor}
+.chart-key i.best,.chart-point.best{color:#ffe36e;fill:#ffe36e}
+.chart-key i.excellent,.chart-point.excellent{color:#52e0a2;fill:#52e0a2}
+.chart-key i.good,.chart-point.good{color:#62b7ff;fill:#62b7ff}
+.chart-key i.inaccuracy,.chart-point.inaccuracy{color:#ffbd4a;fill:#ffbd4a}
+.chart-key i.mistake,.chart-point.mistake{color:#ff854a;fill:#ff854a}
+.chart-key i.blunder,.chart-point.blunder{color:#ff5577;fill:#ff5577}
+.chart-key i.advantage{width:16px;height:3px;border:0;border-radius:0;background:#ffe36e}
+.chart-grid{stroke:#ffffff16;stroke-width:1}
+.chart-zero{stroke:#c4b5d4;stroke-width:1.5;stroke-dasharray:5 4}
+.chart-point{stroke:#171321;stroke-width:2;cursor:pointer;transition:r .12s ease,stroke-width .12s ease}
+.chart-point:hover,.chart-point:focus-visible,.chart-point.selected{stroke:#fff;stroke-width:3;outline:none}

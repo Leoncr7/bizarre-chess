@@ -501,20 +501,26 @@ body{background:radial-gradient(ellipse at 51% 23%,color-mix(in srgb,var(--panel
 .theme-choice:focus-visible,.progression-dialog button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .progression-dialog::backdrop{background:#090711e8;backdrop-filter:blur(3px)}
 
-.updates-panel{position:fixed;z-index:20;right:18px;bottom:18px;width:min(350px,calc(100vw - 28px));color:#f4e8ff;font-family:'Barlow',Arial,sans-serif}
-.updates-panel>summary{display:flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:0 14px;border:2px solid #d1ad5c;background:#211a2b;box-shadow:4px 4px 0 #090812;color:#ffe48b;font-size:11px;font-weight:800;letter-spacing:1px;cursor:pointer;list-style:none}
+.updates-panel{position:fixed;z-index:20;right:22px;bottom:22px;width:min(370px,calc(100vw - 32px));color:#f4e8ff;font-family:'Barlow',Arial,sans-serif;filter:drop-shadow(5px 5px 0 #090812)}
+.updates-panel>summary{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 16px;border:3px solid #80649a;outline:2px solid #d1ad5c;outline-offset:-7px;background:linear-gradient(135deg,#30233f,#1d1a31 65%);box-shadow:inset 0 -5px 0 #100d19;color:#ffe48b;font:8px/1.8 'Press Start 2P','Courier New',monospace;letter-spacing:.4px;cursor:pointer;list-style:none;text-shadow:2px 2px #090812;transition:transform .12s ease,background .12s ease}
+.updates-panel>summary:hover{transform:translateY(-2px);background:linear-gradient(135deg,#493552,#211a2b 65%)}
 .updates-panel>summary::-webkit-details-marker{display:none}
-.updates-panel>summary::before{content:'+';margin-right:auto;font-size:17px;line-height:1}
+.updates-panel>summary::before{content:'+';margin-right:auto;color:#b69aff;font:16px/1 'Courier New',monospace}
 .updates-panel[open]>summary::before{content:'−'}
-.updates-indicator{font-size:15px}
-.updates-count{display:grid;place-items:center;min-width:20px;height:20px;border-radius:50%;background:#71558a;color:#fff;font-size:10px;letter-spacing:0}
-.updates-content{position:absolute;right:0;bottom:54px;width:100%;max-height:min(65vh,480px);overflow:auto;padding:16px;border:2px solid #80649a;background:#1d1a31;box-shadow:5px 5px 0 #090812}
-.updates-content h2{margin:0 0 12px;color:#ffe994;font:11px/1.8 'Press Start 2P','Courier New',monospace}
-.updates-list{display:grid;gap:10px}
-.update-entry{padding:11px;border:1px solid #ffffff20;background:#151326}
+.updates-indicator{color:#ffe48b;font-size:15px;text-shadow:0 0 10px #ffe48b88}
+.updates-count{display:grid;place-items:center;min-width:24px;height:24px;border:2px solid #d1ad5c;background:#493552;color:#fff;font:8px 'Press Start 2P','Courier New',monospace;letter-spacing:0;box-shadow:2px 2px 0 #090812}
+.updates-content{position:absolute;right:0;bottom:65px;width:100%;max-height:min(68vh,520px);overflow:auto;padding:18px;border:3px solid #80649a;outline:2px solid #d1ad5c;outline-offset:-8px;background:linear-gradient(145deg,#272038,#171321 70%);box-shadow:inset 0 0 0 5px #100d19,5px 5px 0 #090812;scrollbar-color:#71558a #151326}
+.updates-kicker{margin-bottom:8px;color:#c8a8ea;font:7px/1.8 'Press Start 2P','Courier New',monospace;letter-spacing:.3px}
+.updates-content h2{margin:0 0 14px;padding-bottom:12px;border-bottom:2px solid #d1ad5c;color:#ffe994;font:11px/1.8 'Press Start 2P','Courier New',monospace;text-shadow:2px 2px #090812}
+.updates-list{display:grid;gap:12px}
+.update-entry{position:relative;padding:13px;border:2px solid #514268;background:linear-gradient(135deg,#211a2b,#151326);box-shadow:3px 3px 0 #090812}
+.update-entry::before{position:absolute;top:-2px;left:10px;width:40px;height:3px;background:#b69aff;content:''}
 .update-heading{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.update-heading strong{color:#f3d98e;font-size:13px}
-.update-heading time{flex:none;color:#bdb2cb;font-size:11px}
-.update-entry ul{margin:8px 0 0;padding-left:18px;color:#eee9f2;font-size:13px;line-height:1.45}
-.updates-hint{margin:12px 0 0;color:#aaa0b5;font-size:10px;line-height:1.4}
-@media(max-width:520px){.updates-panel{right:12px;bottom:12px;width:min(330px,calc(100vw - 24px))}.updates-content{max-height:55vh}}
+.update-heading strong{color:#f3d98e;font:8px/1.8 'Press Start 2P','Courier New',monospace}
+.update-heading time{flex:none;color:#bdb2cb;font:10px 'Courier New',monospace}
+.update-entry ul{display:grid;gap:7px;margin:10px 0 0;padding:0;list-style:none;color:#eee9f2;font:12px/1.55 'Courier New',monospace}
+.update-entry li{position:relative;padding-left:16px}
+.update-entry li::before{position:absolute;left:0;color:#aee7d0;content:'▶';font-size:9px}
+.updates-hint{margin:14px 0 0;padding-top:10px;border-top:1px solid #ffffff20;color:#aaa0b5;font:10px/1.5 'Courier New',monospace}
+.updates-panel :focus-visible{outline:2px solid #ffe48b;outline-offset:3px}
+@media(max-width:520px){.updates-panel{right:14px;bottom:14px;width:min(340px,calc(100vw - 28px))}.updates-content{max-height:58vh;padding:15px}.updates-panel>summary{min-height:50px}}

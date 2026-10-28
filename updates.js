@@ -59,7 +59,12 @@ const updatesList = document.querySelector('#updates-list');
 const updatesCount = document.querySelector('#updates-count');
 
 if (updatesList && updatesCount) {
-  updatesCount.textContent = String(gameUpdates.length);
+  const totalUpdates = String(gameUpdates.length);
+  const refreshUpdatesCount = () => {
+    updatesCount.textContent = totalUpdates;
+  };
+  refreshUpdatesCount();
+  document.querySelector('#updates-panel')?.addEventListener('toggle', refreshUpdatesCount);
 
   for (const update of gameUpdates) {
     const article = document.createElement('article');

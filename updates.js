@@ -2,6 +2,14 @@
 // Mantenha as versões anteriores para que o painel preserve o histórico.
 const gameUpdates = [
   {
+    version: 'Ajustes de interface e multiplayer',
+    date: '04/11/2026',
+    changes: [
+      'Corrigidos detalhes de acessibilidade, visualização em telas menores e entrada nas salas multiplayer sem login.',
+      'Preparado o campo da imagem de compartilhamento para receber a URL absoluta do site quando o domínio for definido.',
+    ],
+  },
+  {
     version: 'Ritmo dos bots',
     date: '28/10/2026',
     changes: [

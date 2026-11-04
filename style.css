@@ -531,3 +531,6 @@ body{background:radial-gradient(ellipse at 51% 23%,color-mix(in srgb,var(--panel
   .result-close,.replay-controls button,.replay-controls span,.tutorial-kicker,
   .tutorial-controls button,.practice-heading,.account-tools .reset-button,.admin-activation button{font-size:10px}
 }
+.bot-difficulty-control{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0;padding:12px;border:2px solid #514268;background:#151326;color:#c9a7dc;font:10px 'Press Start 2P','Courier New',monospace}
+.bot-difficulty-control select{min-width:120px;min-height:42px;padding:8px;border:2px solid #80649a;border-radius:0;background:#100f1d;color:#fff4d6;font:12px 'Courier New',monospace}
+@media(max-width:380px){.bot-difficulty-control{align-items:stretch;flex-direction:column}.bot-difficulty-control select{width:100%}}

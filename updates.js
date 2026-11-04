@@ -2,6 +2,14 @@
 // Mantenha as versões anteriores para que o painel preserve o histórico.
 const gameUpdates = [
   {
+    version: 'Dificuldade do bot',
+    date: '04/11/2026',
+    changes: [
+      'Escolha entre Fácil, Médio e Difícil; a preferência fica salva neste navegador.',
+      'O bot usa Stockfish local quando a partida segue as regras padrão, e o torneio aumenta gradualmente a força dos rivais.',
+    ],
+  },
+  {
     version: 'Ajustes de interface e multiplayer',
     date: '04/11/2026',
     changes: [

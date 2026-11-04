@@ -2,6 +2,14 @@
 // Mantenha as versões anteriores para que o painel preserve o histórico.
 const gameUpdates = [
   {
+    version: 'Ajustes mobile e toque no celular',
+    date: '04/11/2026',
+    changes: [
+      'Ajustado o layout para telas pequenas com altura segura e controles maiores para toque, sem mexer no desktop.',
+      'Tabuleiro, painéis e diálogos passam a respeitar a área útil do navegador em retrato e paisagem, sem cobrir texto ou botões.',
+    ],
+  },
+  {
     version: 'Arquivo de revisões no IndexedDB',
     date: '04/11/2026',
     changes: [

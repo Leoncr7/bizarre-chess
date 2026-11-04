@@ -529,9 +529,12 @@ body{background:radial-gradient(ellipse at 51% 23%,color-mix(in srgb,var(--panel
   .result-close,.replay-controls button,.replay-controls span,.tutorial-kicker,
   .tutorial-controls button,.practice-heading,.account-tools .reset-button,.admin-activation button{font-size:10px}
 }
-.bot-difficulty-control{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0;padding:12px;border:2px solid #514268;background:#151326;color:#c9a7dc;font:10px 'Press Start 2P','Courier New',monospace}
-.bot-difficulty-control select{min-width:120px;min-height:42px;padding:8px;border:2px solid #80649a;border-radius:0;background:#100f1d;color:#fff4d6;font:12px 'Courier New',monospace}
-@media(max-width:380px){.bot-difficulty-control{align-items:stretch;flex-direction:column}.bot-difficulty-control select{width:100%}}
+.bot-difficulty-control{display:flex;align-items:center;justify-content:space-between;gap:16px;width:min(100%,460px);margin:18px auto 0;padding:10px 12px;border-top:2px solid #514268;color:#c9a7dc;font:8px/1.8 'Press Start 2P','Courier New',monospace}
+.bot-difficulty-control>span{display:flex;align-items:center;gap:9px}
+.bot-difficulty-control>span::before{color:var(--gold);content:'▶'}
+.bot-difficulty-control select{min-width:140px;min-height:40px;padding:7px 28px 7px 10px;border:2px solid #80649a;border-radius:0;background:#100f1d;color:#fff4d6;font:12px 'Courier New',monospace;cursor:pointer}
+.bot-difficulty-control select:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+@media(max-width:380px){.bot-difficulty-control{align-items:stretch;flex-direction:column;gap:8px}.bot-difficulty-control select{width:100%}}
 @media(max-width:640px){
   .player-info small,.power-label,.section-title,.mode-button,.power-choice-label,
   .rules-note b,.rules-note small,.shop-inline,.shop-buy,.edition,.eyebrow,

@@ -2,6 +2,14 @@
 // Mantenha as versões anteriores para que o painel preserve o histórico.
 const gameUpdates = [
   {
+    version: 'Arquivo de revisões no IndexedDB',
+    date: '04/11/2026',
+    changes: [
+      'Partidas e análises da revisão são salvas no IndexedDB, com migração automática do arquivo antigo do navegador.',
+      'O arquivo comporta até 50 partidas e preserva a partida mais recente quando o armazenamento fica sem espaço.',
+    ],
+  },
+  {
     version: 'Ações multiplayer validadas e reconexão',
     date: '04/11/2026',
     changes: [

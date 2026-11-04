@@ -20,7 +20,7 @@
 .board.thinking{cursor:wait;filter:saturate(.82)}
 .board.thinking .square{cursor:wait}
 @media(max-width:900px){.layout{padding-inline:20px}.game{grid-template-columns:minmax(0,1fr) 280px;gap:18px}.square{font-size:clamp(30px,5vw,50px)}}
-@media(max-width:760px){.layout{padding:14px 12px}.intro{padding:23px 0 18px}.intro h1{font-size:34px}.intro p{max-width:440px;margin:auto;line-height:1.45}.game{grid-template-columns:minmax(0,600px);gap:12px}.side-panel{min-height:390px}.square{font-size:clamp(27px,8vw,52px)}.board-frame{padding-left:15px}}
+@media(max-width:760px){.layout{padding:14px 12px}.intro{padding:23px 0 18px}.intro h1{font-size:34px}.intro p{max-width:440px;margin:auto;line-height:1.45}.game{grid-template-columns:minmax(0,600px);gap:12px;align-items:start}.side-panel{align-self:stretch;min-height:0}.square{font-size:clamp(27px,8vw,52px)}.board-frame{padding-left:15px}}
 [hidden]{display:none!important}
 .mode-switch{grid-template-columns:1fr 1fr 1fr}
 .mode-button{font-size:8px;letter-spacing:.25px}
@@ -446,8 +446,6 @@ body.power-effects-disabled .power-effect.active{display:none!important}
 
 /* Mantém o painel compacto e centralizado ao lado do tabuleiro. */
 .game{align-items:center}.side-panel{align-self:center;height:max-content;min-height:0;padding:12px}.status{font-size:18px;padding:8px 0 9px}.power-card{margin-top:10px;padding:9px}.power-card p{margin:8px 0 9px}.captured,.move-log{margin-top:11px}.move-log{padding-top:9px}.move-log ol{max-height:150px}.reset-button{margin-top:10px}
-@media(max-width:760px){.game{align-items:start}.side-panel{align-self:stretch;min-height:0}}
-
 .review-rating.power{background:#554477;color:#ffe994}
 
 /* Legenda e pontos do gráfico de revisão usam a mesma cor por classificação. */
@@ -534,3 +532,28 @@ body{background:radial-gradient(ellipse at 51% 23%,color-mix(in srgb,var(--panel
 .bot-difficulty-control{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0;padding:12px;border:2px solid #514268;background:#151326;color:#c9a7dc;font:10px 'Press Start 2P','Courier New',monospace}
 .bot-difficulty-control select{min-width:120px;min-height:42px;padding:8px;border:2px solid #80649a;border-radius:0;background:#100f1d;color:#fff4d6;font:12px 'Courier New',monospace}
 @media(max-width:380px){.bot-difficulty-control{align-items:stretch;flex-direction:column}.bot-difficulty-control select{width:100%}}
+@media(max-width:640px){
+  .player-info small,.power-label,.section-title,.mode-button,.power-choice-label,
+  .rules-note b,.rules-note small,.shop-inline,.shop-buy,.edition,.eyebrow,
+  .panel-heading,footer,.menu-kicker,.menu-options button span,.avatar,.power-button,
+  .reset-button,.shop-open-button,.settings-open-button,.settings-open-button span,
+  .effect-name,.player-name-settings label small,.vip-open-button,.vip-dialog label,
+  .vip-power-choice-label,.review-rating,.game-review>h3,.review-chart-panel h3,
+  .review-move-list-wrap h3,.review-selected h3,.review-actions button,
+  .review-selected button,.review-archive button,.review-stats article h3,.pgn-import,
+  .review-tools>summary,.review-analysis-details>summary,.result-kicker,.result-close,
+  .tutorial-kicker,.tutorial-controls button,.practice-heading,.practice-board .rank-label,
+  .practice-file,.save-note,.account-tools,.account-tools .reset-button,.auth-dialog label,
+  .admin-activation button,.progression-dialog h3,.achievement-card>b,
+  .updates-panel>summary,.updates-count,.updates-kicker,.update-heading strong,
+  .bot-difficulty-control{font-size:10px}
+  .review-heading .result-close,.replay-controls button,.replay-controls span,
+  .tutorial-controls button,.practice-heading,.effect-name,.settings-open-button,
+  .settings-open-button span,#review-analyze{font-size:10px}
+  .review-rating,.review-actions button,.review-selected button,.review-archive button,
+  .review-tools>summary,.review-analysis-details>summary,.updates-panel>summary{
+    overflow-wrap:anywhere
+  }
+  .review-actions button,.review-selected button,.review-archive button{min-width:0}
+  .updates-panel>summary{flex-wrap:wrap}
+}

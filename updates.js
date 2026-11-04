@@ -2,6 +2,14 @@
 // Mantenha as versões anteriores para que o painel preserve o histórico.
 const gameUpdates = [
   {
+    version: 'Interface responsiva e legibilidade mobile',
+    date: '04/11/2026',
+    changes: [
+      'Reunidas as regras responsivas do tabuleiro e dos painéis, preservando o layout em telas menores.',
+      'Fontes pequenas dos controles e informações passam a ter no mínimo 10px em dispositivos móveis.',
+    ],
+  },
+  {
     version: 'Dificuldade do bot',
     date: '04/11/2026',
     changes: [

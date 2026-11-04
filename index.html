@@ -41,7 +41,7 @@
       <aside class="side-panel">
         <div class="panel-heading"><span class="live-dot"></span> <span>ESTADO DA BATALHA</span></div>
         <div class="game-coins">✦ <span id="coins-game">0</span> moedas <button id="open-shop-game" class="shop-inline">LOJA</button></div>
-        <div id="multiplayer-room-info" class="multiplayer-room-info" hidden>SALA <strong id="multiplayer-room-code"></strong><button id="copy-multiplayer-code" type="button">COPIAR CÓDIGO</button><small id="multiplayer-room-status"></small></div><div id="status" class="status" aria-live="polite">A vez de Jotaro</div>
+        <div id="multiplayer-room-info" class="multiplayer-room-info" hidden>SALA <strong id="multiplayer-room-code"></strong><button id="copy-multiplayer-code" type="button">COPIAR CÓDIGO</button><small id="multiplayer-room-status" role="status" aria-live="polite"></small></div><div id="status" class="status" aria-live="polite">A vez de Jotaro</div>
         <div class="mode-switch" role="group" aria-label="Modo de jogo"><button id="bot-mode" class="mode-button active" aria-pressed="true">JOGAR CONTRA O BOT</button><button id="local-mode" class="mode-button" aria-pressed="false">2 JOGADORES</button><button id="tournament-mode" class="mode-button" aria-pressed="false">TORNEIO JOJO</button></div>
         <section id="tournament-card" class="tournament-card" hidden aria-label="Progresso do torneio"><div class="section-title">CAMINHO ATÉ A FINAL</div><ol id="bracket" class="bracket"></ol></section>
         <div class="power-card">

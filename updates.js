@@ -2,6 +2,14 @@
 // Mantenha as versões anteriores para que o painel preserve o histórico.
 const gameUpdates = [
   {
+    version: 'Ações multiplayer validadas e reconexão',
+    date: '04/11/2026',
+    changes: [
+      'As partidas online sincronizam lances e poderes individuais, validados pelo tabuleiro de cada jogador.',
+      'Snapshots ficam reservados para entrada, reconexão e reinício acordado; o jogo tenta reconectar e informa o estado da conexão.',
+    ],
+  },
+  {
     version: 'Interface responsiva e legibilidade mobile',
     date: '04/11/2026',
     changes: [

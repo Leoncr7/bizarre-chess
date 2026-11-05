@@ -50,6 +50,14 @@ function powerIconSvg(power){const pixels=powerIconPixels[power];if(!pixels)retu
 let gameAudioContext=null;
 const GAME_SETTINGS_KEY='jojoChessSettings';
 let gameSettings={powerVolume:.7,powerEffectsEnabled:true,botDifficulty:'medium'};
+const menuMusic=new Audio('assets/sons/somdefundo.mp3');
+menuMusic.loop=true;
+menuMusic.volume=.35;
+function syncMenuMusic(){const menuVisible=!document.querySelector('#game-menu').hidden;if(!menuVisible){menuMusic.pause();menuMusic.currentTime=0;return}if(menuMusic.paused)menuMusic.play().catch(error=>{if(error.name!=='NotAllowedError')console.warn('Não foi possível reproduzir a música do menu:',error)})}
+new MutationObserver(syncMenuMusic).observe(document.querySelector('#game-menu'),{attributes:true,attributeFilter:['hidden']});
+document.addEventListener('pointerdown',syncMenuMusic,true);
+document.addEventListener('keydown',syncMenuMusic,true);
+syncMenuMusic();
 const mobileLayoutMedia=window.matchMedia('(max-width:760px), (pointer:coarse) and (max-height:500px)');
 function applyMobileLayout(){document.body.classList.toggle('mobile-mode',mobileLayoutMedia.matches)}
 mobileLayoutMedia.addEventListener('change',applyMobileLayout);

@@ -662,3 +662,25 @@ body{height:100vh;height:100dvh}
   .updates-panel>summary,.updates-panel>summary:hover{transform:none !important}
   *{-webkit-tap-highlight-color:transparent}
 }
+
+body.mobile-mode .layout{width:min(100%,480px);margin-inline:auto;padding:10px 10px 18px}
+body.mobile-mode .intro{padding:18px 0 12px}
+body.mobile-mode .intro h1{font-size:26px;line-height:1.1;margin:6px 0}
+body.mobile-mode .intro p{font-size:12px;line-height:1.5;max-width:30ch;margin:0 auto}
+body.mobile-mode .game{grid-template-columns:1fr;gap:10px;align-items:start}
+body.mobile-mode .board-column,body.mobile-mode .board-frame,body.mobile-mode .side-panel{width:100%}
+body.mobile-mode .player-bar{min-height:44px;height:auto;padding:6px 10px}
+body.mobile-mode .board{width:min(100%,calc(100dvh - 150px));max-width:100%;margin:0 auto}
+body.mobile-mode .mode-switch,body.mobile-mode .menu-options,body.mobile-mode .menu-secondary-actions{grid-template-columns:1fr;gap:8px}
+body.mobile-mode .mode-button,body.mobile-mode .power-button,body.mobile-mode .reset-button,body.mobile-mode .shop-open-button,body.mobile-mode .settings-open-button,body.mobile-mode .menu-options button{min-height:44px}
+body.mobile-mode .menu-options button{padding:12px 14px}
+@media (orientation:landscape) and (pointer:coarse) and (max-height:500px){
+  body.mobile-mode .layout{width:100%;max-width:1320px;padding:8px 10px}
+  body.mobile-mode:has(#game:not([hidden])) .intro{display:none}
+  body.mobile-mode .game{grid-template-columns:minmax(0,1fr) minmax(220px,280px);gap:8px;align-items:stretch}
+  body.mobile-mode .board-frame{padding-left:0}
+  body.mobile-mode .board{width:min(100%,calc(100dvh - 130px));max-width:calc(100dvh - 130px);margin:0 auto}
+  body.mobile-mode .side-panel{max-height:calc(100dvh - 16px);overflow:auto;overscroll-behavior:contain}
+  body.mobile-mode .move-log ol{max-height:80px}
+  body.mobile-mode .rules-note{display:none}
+}

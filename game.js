@@ -50,10 +50,15 @@ function powerIconSvg(power){const pixels=powerIconPixels[power];if(!pixels)retu
 let gameAudioContext=null;
 const GAME_SETTINGS_KEY='jojoChessSettings';
 let gameSettings={powerVolume:.7,powerEffectsEnabled:true,botDifficulty:'medium'};
-const menuMusic=new Audio('assets/sons/somdefundo.mp3');
-menuMusic.loop=true;
+const menuMusicTracks=Array.from({length:7},(_,index)=>`assets/sons/aberturap${index+1}.mp3`);
+const menuMusic=new Audio();
+let menuMusicOrder=[];
+let menuMusicTrackIndex=-1;
+let lastMenuMusicTrack=null;
 menuMusic.volume=.35;
-function syncMenuMusic(){const menuVisible=!document.querySelector('#game-menu').hidden;if(!menuVisible){menuMusic.pause();menuMusic.currentTime=0;return}if(menuMusic.paused)menuMusic.play().catch(error=>{if(error.name!=='NotAllowedError')console.warn('Não foi possível reproduzir a música do menu:',error)})}
+function playNextMenuTrack(){if(menuMusicTrackIndex===-1||menuMusicTrackIndex>=menuMusicOrder.length-1){menuMusicOrder=[...menuMusicTracks];for(let index=menuMusicOrder.length-1;index>0;index--){const swapIndex=Math.floor(Math.random()*(index+1));[menuMusicOrder[index],menuMusicOrder[swapIndex]]=[menuMusicOrder[swapIndex],menuMusicOrder[index]]}if(menuMusicOrder[0]===lastMenuMusicTrack){const swapIndex=1+Math.floor(Math.random()*(menuMusicOrder.length-1));[menuMusicOrder[0],menuMusicOrder[swapIndex]]=[menuMusicOrder[swapIndex],menuMusicOrder[0]]}menuMusicTrackIndex=0}else menuMusicTrackIndex++;lastMenuMusicTrack=menuMusicOrder[menuMusicTrackIndex];menuMusic.src=lastMenuMusicTrack;menuMusic.currentTime=0;menuMusic.play().catch(error=>{if(error.name!=='NotAllowedError')console.warn('Não foi possível reproduzir a música do menu:',error)})}
+function syncMenuMusic(){const menuVisible=!document.querySelector('#game-menu').hidden;if(!menuVisible){menuMusic.pause();menuMusic.currentTime=0;return}if(menuMusic.paused){if(menuMusicTrackIndex===-1)playNextMenuTrack();else menuMusic.play().catch(error=>{if(error.name!=='NotAllowedError')console.warn('Não foi possível reproduzir a música do menu:',error)})}}
+menuMusic.addEventListener('ended',()=>{if(!document.querySelector('#game-menu').hidden)playNextMenuTrack()});
 new MutationObserver(syncMenuMusic).observe(document.querySelector('#game-menu'),{attributes:true,attributeFilter:['hidden']});
 document.addEventListener('pointerdown',syncMenuMusic,true);
 document.addEventListener('keydown',syncMenuMusic,true);

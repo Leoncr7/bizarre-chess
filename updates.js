@@ -2,6 +2,14 @@
 // Mantenha as versões anteriores para que o painel preserve o histórico.
 const gameUpdates = [
   {
+    version: 'Aberturas aleatórias no menu principal',
+    date: '12/11/2026',
+    changes: [
+      'As sete aberturas tocam em ordem aleatória, uma após a outra, e a sequência recomeça sem repetir a última faixa.',
+      'O contador mostra atualizações não vistas, some ao abrir o painel e volta quando há novidades.',
+    ],
+  },
+  {
     version: 'Ajustes mobile e toque no celular',
     date: '04/11/2026',
     changes: [
@@ -105,14 +113,29 @@ const gameUpdates = [
 
 const updatesList = document.querySelector('#updates-list');
 const updatesCount = document.querySelector('#updates-count');
+const updatesPanel = document.querySelector('#updates-panel');
+const LAST_SEEN_UPDATE_KEY = 'jojoChessLastSeenUpdate';
 
 if (updatesList && updatesCount) {
-  const totalUpdates = String(gameUpdates.length);
+  let lastSeenUpdate = localStorage.getItem(LAST_SEEN_UPDATE_KEY);
   const refreshUpdatesCount = () => {
-    updatesCount.textContent = totalUpdates;
+    const lastSeenIndex = gameUpdates.findIndex(update => update.version === lastSeenUpdate);
+    const unreadCount = lastSeenIndex < 0 ? gameUpdates.length : lastSeenIndex;
+    updatesCount.textContent = String(unreadCount);
+    updatesCount.hidden = unreadCount === 0;
   };
   refreshUpdatesCount();
-  document.querySelector('#updates-panel')?.addEventListener('toggle', refreshUpdatesCount);
+  updatesPanel?.addEventListener('toggle', () => {
+    if (!updatesPanel.open) return;
+    lastSeenUpdate = gameUpdates[0]?.version ?? null;
+    if (lastSeenUpdate) localStorage.setItem(LAST_SEEN_UPDATE_KEY, lastSeenUpdate);
+    refreshUpdatesCount();
+  });
+  window.addEventListener('storage', event => {
+    if (event.key !== LAST_SEEN_UPDATE_KEY) return;
+    lastSeenUpdate = event.newValue;
+    refreshUpdatesCount();
+  });
 
   for (const update of gameUpdates) {
     const article = document.createElement('article');

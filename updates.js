@@ -76,14 +76,14 @@ const gameUpdates = [
     version: 'Sons de movimento e captura',
     date: '28/10/2026',
     changes: [
-      'sonspeças.mp3 toca somente em movimentos comuns; capturapeças.mp3 toca em capturas e promoções.',
+      'sonspeca.mp3 toca somente em movimentos comuns; capturapeca.mp3 toca em capturas e promoções.',
     ],
   },
   {
     version: 'Som das peças',
     date: '28/10/2026',
     changes: [
-      'O arquivo sonspeças.mp3 agora toca nos movimentos normais das peças.',
+      'O arquivo sonspeca.mp3 agora toca nos movimentos normais das peças.',
     ],
   },
   {

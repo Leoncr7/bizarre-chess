@@ -18,7 +18,7 @@ function recordImmediateReviewPower(){commitReviewAction();saveCurrentMatch()}
 let reviewEngine=null,reviewEngineReady=null,reviewAnalysis=null,reviewTrainingAnswer=null,reviewTrainingSource=null,reviewVariant=null,reviewBestShown=false,reviewCompareShown=false,reviewShowBefore=false;
 let playerCharacters={w:'jotaro',b:'jolyne'},profileCharacter='jotaro',profileName='';
 let multiplayerRoomCode=null,multiplayerSeat=null,multiplayerColor=null,multiplayerHostColor='w',multiplayerRevision=0,multiplayerReceivedRevision=0,multiplayerGuestJoined=false,multiplayerHasJoined=false,multiplayerOutgoingActionId=0,multiplayerIncomingActionId=0,multiplayerPeer=null,multiplayerConnection=null,multiplayerApplyingState=false,multiplayerJoinResolve=null,multiplayerJoinReject=null,multiplayerRestartRequested=false,multiplayerRemoteRestartRequested=false,multiplayerRestartTimer=null,multiplayerReconnectTimer=null,multiplayerReconnectAttempts=0,multiplayerApplyingAction=false;
-const characterPhotos={jotaro:{name:'Jotaro Kujo',file:'JotaroKujo.webp'},jolyne:{name:'Jolyne Cujoh',file:'Jolyne Cujoh.jpg'},jonathan:{name:'Jonathan Joestar',file:'jonathah.webp'},giorno:{name:'Giorno Giovanna',file:'giorno.webp'},josuke:{name:'Josuke Higashikata',file:'josuke.jpeg'},joseph:{name:'Joseph Joestar',file:'joseph.jpeg'},avdol:{name:'Muhammad Avdol',file:'avdol.webp'},iggy:{name:'Iggy',file:'iggy.jpeg'},polnareff:{name:'Jean Pierre Polnareff',file:'polnareff.webp'},kakyoin:{name:'Noriaki Kakyoin',file:'Kakyoin01.webp'},dio:{name:'DIO Brando',file:'dio.webp'},kars:{name:'Kars',file:'kars.png'},kira:{name:'Yoshikage Kira',file:'kira.webp'},diavolo:{name:'Diavolo',file:'diavolo.webp'},pucci:{name:'Enrico Pucci',file:'pucci.webp'},valentine:{name:'Funny Valentine',file:'valentine.png'},kei:{name:'Kei',file:'Kei.webp'},lisa:{name:'Lisa Lisa',file:'Lisa.webp'},trish:{name:'Trish Una',file:'Trish.jpeg'},anne:{name:'Anne',file:'Anne.webp'}};
+const characterPhotos={jotaro:{name:'Jotaro Kujo',file:'JotaroKujo.webp'},jolyne:{name:'Jolyne Cujoh',file:'Jolyne Cujoh.jpg'},jonathan:{name:'Jonathan Joestar',file:'jonathah.webp'},giorno:{name:'Giorno Giovanna',file:'giorno.webp'},josuke:{name:'Josuke Higashikata',file:'josuke.jpeg'},joseph:{name:'Joseph Joestar',file:'joseph.jpeg'},avdol:{name:'Muhammad Avdol',file:'avdol.webp'},iggy:{name:'Iggy',file:'iggy.jpeg'},polnareff:{name:'Jean Pierre Polnareff',file:'polnareff.webp'},kakyoin:{name:'Noriaki Kakyoin',file:'Kakyoin01.webp'},dio:{name:'DIO Brando',file:'dio.webp'},kars:{name:'Kars',file:'kars.webp'},kira:{name:'Yoshikage Kira',file:'kira.webp'},diavolo:{name:'Diavolo',file:'diavolo.webp'},pucci:{name:'Enrico Pucci',file:'pucci.webp'},valentine:{name:'Funny Valentine',file:'valentine.webp'},kei:{name:'Kei',file:'Kei.webp'},lisa:{name:'Lisa Lisa',file:'Lisa.webp'},trish:{name:'Trish Una',file:'Trish.jpeg'},anne:{name:'Anne',file:'Anne.webp'}};
 let loveTrainRemaining=0,loveTrainOwner=null,loveTrainUsed=false;
 let castlingRights,enPassantTarget=null,halfmoveClock=0,repetitionCounts={},promotionPending=null,dragState=null,dragGhost=null,suppressClick=false,pendingRestorePiece=null,localPowers={w:null,b:null};
 let coins=0,ownedPowers=[],equippedPower=null,tournamentRewarded=false,currentUser=null,authMode='login',starterCoinsGranted=false,serverSaveQueue=Promise.resolve();
@@ -52,6 +52,7 @@ const GAME_SETTINGS_KEY='jojoChessSettings';
 let gameSettings={powerVolume:.7,powerEffectsEnabled:true,botDifficulty:'medium'};
 const menuMusicTracks=Array.from({length:7},(_,index)=>`assets/sons/aberturap${index+1}.mp3`);
 const menuMusic=new Audio();
+menuMusic.preload='none';
 let menuMusicOrder=[];
 let menuMusicTrackIndex=-1;
 let lastMenuMusicTrack=null;
@@ -300,24 +301,25 @@ document.querySelector('#open-game-review').addEventListener('click',()=>{if(bot
 document.querySelector('#result-close').addEventListener('click',()=>{const overlay=document.querySelector('#result-overlay');if(reviewFinalState){board=reviewFinalState.board;turn=reviewFinalState.turn;lastMove=reviewFinalState.lastMove;reviewFinalState=null;render()}overlay.close();if(reviewOnly){reviewOnly=false;document.querySelector('#result-close').textContent='CONTINUAR';renderClocks();if(!gameOver)startClock();saveCurrentMatch();return}if(mode==='multiplayer'){statusEl.textContent='Partida encerrada · crie outra sala para jogar novamente';return}const next=document.querySelector('#tournament-next'),nextHidden=next.hidden,nextText=next.textContent;resetRound();next.hidden=nextHidden;next.textContent=nextText;saveCurrentMatch()})
 document.querySelector('#result-overlay').addEventListener('cancel',event=>{event.preventDefault();document.querySelector('#result-close').click()});
 function completeActionCore(){const actingSide=turn,bonusTurn=extraTurn;if(extraTurn)extraTurn=false;else turn=turn==='w'?'b':'w';if(!bonusTurn)tickPowerCooldown(turn);if(loveTrainRemaining>0&&loveTrainOwner&&actingSide!==loveTrainOwner){loveTrainRemaining--;if(!loveTrainRemaining)loveTrainOwner=null}const key=positionKey();repetitionCounts[key]=(repetitionCounts[key]||0)+1;const check=inCheck(board,turn),movesForTurn=allLegal(turn);let result='';if(!movesForTurn.length){gameOver=true;const whiteWon=otherSide(turn)===humanSide&&check;result=check?(whiteWon?'VITÓRIA! XEQUE-MATE!':'XEQUE-MATE!'):'EMPATE POR AFOGAMENTO';if(mode==='tournament'){document.querySelector('#tournament-next').hidden=false;document.querySelector('#tournament-next').textContent=whiteWon?(tournamentRound===tournamentOpponents.length-1?'CONCLUIR TORNEIO':'AVANÇAR NO TORNEIO'):'TENTAR ESTA FASE DE NOVO';if(whiteWon&&tournamentRound===tournamentOpponents.length-1){result='TORNEIO CONQUISTADO! '+result;if(!tournamentRewarded){coins+=100;tournamentRewarded=true;saveProfile();updateCoinDisplay();result+=' +100 MOEDAS!'}}}}else if(repetitionCounts[key]>=5){gameOver=true;result='EMPATE POR REPETIÇÃO (5 VEZES)'}else if(halfmoveClock>=150){gameOver=true;result='EMPATE PELA REGRA DOS 75 LANCES'}else if(insufficientMaterial()){gameOver=true;result='EMPATE: MATERIAL INSUFICIENTE'}if(gameOver&&mode==='tournament'&&document.querySelector('#tournament-next').hidden){document.querySelector('#tournament-next').hidden=false;document.querySelector('#tournament-next').textContent='TENTAR ESTA FASE DE NOVO'}commitReviewAction();const canClaim=!gameOver&&(repetitionCounts[key]>=3||halfmoveClock>=100)&&(isTwoPlayerMode()||turn===humanSide);document.querySelector('#claim-draw').hidden=!canClaim;render();if(gameOver){statusEl.textContent=result;showGameResult(result)}else if(check)statusEl.textContent=`XEQUE em ${sideDisplayName(turn)}!`;renderLog();renderCaptures();renderBracket();saveCurrentMatch();if(!gameOver&&isSinglePlayerMode()&&turn===otherSide(humanSide))scheduleBot()}
-function completeAction(){if(!updateActiveClock())return;if(mode==='local'&&!gameOver){localMoveTransition=true;stopClockInterval();clockLastTick=0;render();renderClocks();localMoveTransitionTimer=setTimeout(()=>{localMoveTransitionTimer=null;localMoveTransition=false;completeActionCore();if(gameOver){stopClockInterval();clockLastTick=0}else startClock();renderClocks()},1100);return}completeActionCore();if(gameOver){stopClockInterval();clockLastTick=0}else clockLastTick=Date.now();renderClocks()}
+function completeAction(){if(!updateActiveClock())return;if(mode==='local'&&!gameOver){localMoveTransition=true;stopClockInterval();clockLastTick=0;render();renderClocks();localMoveTransitionTimer=setTimeout(()=>{localMoveTransitionTimer=null;localMoveTransition=false;completeActionCore();if(gameOver){stopClockInterval();clockLastTick=0}else startClock();renderClocks()},350);return}completeActionCore();if(gameOver){stopClockInterval();clockLastTick=0}else clockLastTick=Date.now();renderClocks()}
 function allLegal(s,b=board,ep=enPassantTarget,rights=castlingRights){const a=[];for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(side(b[r][c])===s)for(const m of getMoves(b,r,c,ep,rights))if(!loveTrainBlocksTarget(s,b[m.r][m.c])&&!(m.enPassant&&loveTrainBlocksTarget(s,b[r][m.c]))&&safeMove(b,[r,c],[m.r,m.c],s,ep))a.push({from:[r,c],to:[m.r,m.c],castle:m.castle,enPassant:m.enPassant,promotion:m.promotion});return a}
 const values={p:100,n:320,b:330,r:500,q:900,k:20000};
 function evaluate(b,perspective='b'){let score=0;for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=b[r][c];if(p)score+=(side(p)===perspective?1:-1)*values[type(p)]}return score}
 function search(b,s,depth,alpha,beta,ep=enPassantTarget,rights=castlingRights,perspective='b'){const moves=allLegal(s,b,ep,rights);if(!depth||!moves.length)return {score:moves.length?evaluate(b,perspective):(inCheck(b,s)?(s===perspective?-100000:100000):0)};const maximizing=s===perspective;let best=maximizing?-Infinity:Infinity;for(const move of moves){const next=applyMove(b,move,ep,rights);const score=search(next.board,otherSide(s),depth-1,alpha,beta,next.ep,next.rights,perspective).score;if(maximizing){best=Math.max(best,score);alpha=Math.max(alpha,best)}else{best=Math.min(best,score);beta=Math.min(beta,best)}if(beta<=alpha)break}return {score:best}}
 let botEngineJob=null;
+// delay is the artificial pause; time limits Stockfish calculation.
 const botDifficultySettings={
-  easy:{elo:1350,depth:5,time:650,delay:900},
-  medium:{elo:1750,depth:9,time:1300,delay:1500},
-  hard:{elo:2200,depth:14,time:2600,delay:1900},
+  easy:{elo:1350,depth:5,time:400,delay:250},
+  medium:{elo:1750,depth:9,time:800,delay:350},
+  hard:{elo:2200,depth:14,time:1500,delay:450},
 };
 const tournamentBotSettings=[
-  {elo:1320,depth:4,time:500,delay:900},
-  {elo:1400,depth:5,time:700,delay:1050},
-  {elo:1550,depth:7,time:900,delay:1200},
-  {elo:1700,depth:9,time:1300,delay:1400},
-  {elo:1850,depth:11,time:1800,delay:1650},
-  {elo:2050,depth:13,time:2300,delay:1900},
+  {elo:1320,depth:4,time:300,delay:250},
+  {elo:1400,depth:5,time:420,delay:290},
+  {elo:1550,depth:7,time:540,delay:330},
+  {elo:1700,depth:9,time:780,delay:370},
+  {elo:1850,depth:11,time:1080,delay:410},
+  {elo:2050,depth:13,time:1380,delay:450},
 ];
 function activeBotSettings(){return mode==='tournament'?tournamentBotSettings[Math.min(tournamentRound,tournamentBotSettings.length-1)]:botDifficultySettings[gameSettings.botDifficulty]||botDifficultySettings.medium}
 function cancelBotEngineJob(){if(!botEngineJob)return;const job=botEngineJob;job.cancel();resetReviewEngine()}
@@ -544,19 +546,20 @@ function restoreSavedMatch(saved){if(!saved||saved.version!==1||!['bot','local',
 async function initializeSavedGame(accountState={}){
   document.querySelectorAll('[data-start-mode]').forEach(button=>button.disabled=true);
   const readLocal=key=>{try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}};
-  const oldProfile=readLocal('jojoChessProfile'),scopedProfile=readLocal(accountStorageKey('profile'));
-  const oldMatch=readLocal('jojoChessActiveMatch'),scopedMatch=readLocal(accountStorageKey('activeMatch'));
+  const isAnonymousAccount=currentUser?.id==='local-player';
+  const oldProfile=isAnonymousAccount?readLocal('jojoChessProfile'):null,scopedProfile=readLocal(accountStorageKey('profile'));
+  const oldMatch=isAnonymousAccount?readLocal('jojoChessActiveMatch'):null,scopedMatch=readLocal(accountStorageKey('activeMatch'));
   let oldDbProfile=null,scopedDbProfile=null,oldDbMatch=null,scopedDbMatch=null;
   [oldDbProfile,scopedDbProfile,oldDbMatch,scopedDbMatch]=await Promise.all([
-    readSavedValue('profile').catch(()=>null),readSavedValue(accountDatabaseKey('profile')).catch(()=>null),
-    readSavedValue('activeMatch').catch(()=>null),readSavedValue(accountDatabaseKey('activeMatch')).catch(()=>null)
+    isAnonymousAccount?readSavedValue('profile').catch(()=>null):null,readSavedValue(accountDatabaseKey('profile')).catch(()=>null),
+    isAnonymousAccount?readSavedValue('activeMatch').catch(()=>null):null,readSavedValue(accountDatabaseKey('activeMatch')).catch(()=>null)
   ]);
   const latest=values=>values.filter(value=>value&&typeof value==='object').reduce((best,value)=>!best||(value.savedAt||0)>=(best.savedAt||0)?value:best,null);
   const profile=latest([oldProfile,oldDbProfile,scopedProfile,scopedDbProfile,accountState.profile]);
   const match=latest([oldMatch,oldDbMatch,scopedMatch,scopedDbMatch,accountState.activeMatch]);
   if(profile){try{localStorage.setItem(accountStorageKey('profile'),JSON.stringify(profile))}catch{}}
   if(match){try{localStorage.setItem(accountStorageKey('activeMatch'),JSON.stringify(match))}catch{}queueSave(accountDatabaseKey('activeMatch'),match)}
-  try{localStorage.removeItem('jojoChessProfile');localStorage.removeItem('jojoChessActiveMatch')}catch{}
+  if(isAnonymousAccount){try{localStorage.removeItem('jojoChessProfile');localStorage.removeItem('jojoChessActiveMatch')}catch{}}
   loadProfile();document.querySelector('#player-one-character').value=profileCharacter;saveProfile();updateCoinDisplay();renderShop();renderProgression();
   if(!match||match.gameOver||!restoreSavedMatch(match)){resetRound();if(match?.gameOver)saveCurrentMatch()}else saveCurrentMatch();
   document.querySelectorAll('[data-start-mode]').forEach(button=>button.disabled=false);

@@ -2,6 +2,15 @@
 // Mantenha as versões anteriores para que o painel preserve o histórico.
 const gameUpdates = [
   {
+    version: 'Partidas mais rápidas e tabuleiro sem frestas',
+    date: '19/11/2026',
+    changes: [
+      'Reduzidas as pausas entre lances contra o bot, no torneio e no 1 vs 1 local; o multiplayer não foi alterado.',
+      'As casas agora se sobrepõem em 1 px para evitar linhas entre elas em diferentes escalas de tela.',
+      'Corrigida a exibição do destaque de captura.',
+    ],
+  },
+  {
     version: 'Aberturas aleatórias no menu principal',
     date: '12/11/2026',
     changes: [

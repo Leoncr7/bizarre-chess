@@ -6,7 +6,7 @@ O jogo é estático e pode ser publicado diretamente no GitHub Pages. Não preci
 
 As contas são locais ao navegador: cada jogador cria sua conta no dispositivo que usa, e o progresso fica salvo nesse navegador. As antigas contas e o painel administrativo que dependiam do servidor Python não fazem parte desta versão estática.
 
-O campo **Código de administrador** ativa um painel local com a lista de contas deste navegador. Código de ativação: `JOTARO-STAR-PLATINUM-ADMIN`. Como o código fica no JavaScript público do Pages, esse painel é apenas demonstrativo e não oferece segurança real nem acesso administrativo compartilhado.
+Para criar uma conta, abra **CRIAR OU ESCOLHER CONTA LOCAL** no menu e, somente no formulário de cadastro, preencha opcionalmente **Código de administrador** com `JOTARO-STAR-PLATINUM-ADMIN`. O código correto cria a conta local com perfil de administrador; qualquer outro valor cria uma conta comum. O código não é salvo. As contas e os perfis existem somente neste navegador. Como o código está no JavaScript público do Pages e os dados são locais, isso é apenas demonstrativo e não oferece segurança real nem acesso administrativo compartilhado.
 
 ## Partidas 1 vs 1
 

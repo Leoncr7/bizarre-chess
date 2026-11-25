@@ -2,6 +2,13 @@
 // Mantenha as versões anteriores para que o painel preserve o histórico.
 const gameUpdates = [
   {
+    version: 'Desistência da partida',
+    date: '25/11/2026',
+    changes: [
+      'O botão DESISTIR encerra a partida após confirmação, registra a vitória do outro lado e funciona contra o bot, no torneio, no 1 vs 1 local e no multiplayer.',
+    ],
+  },
+  {
     version: 'Partidas mais rápidas e tabuleiro sem frestas',
     date: '19/11/2026',
     changes: [

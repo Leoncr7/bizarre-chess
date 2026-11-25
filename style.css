@@ -707,3 +707,107 @@ body.mobile-mode .menu-options button{padding:12px 14px}
 .square.capture:after{content:""}
 .square{width:calc(100% + 1px);height:calc(100% + 1px);margin:0 -1px -1px 0}
 .endgame-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}.endgame-actions .reset-button{width:100%;margin-top:0}
+/* Painel de estatísticas: os mesmos contornos retos e sombras pixel art do jogo. */
+.statistics-dialog{width:min(760px,calc(100vw - 28px));max-height:90dvh;overflow:auto;margin:auto;padding:0;border:4px solid #80649a;border-radius:0;background:#1d1a31;color:#fff4d6;box-shadow:8px 8px 0 #090812;font-family:'Courier New',monospace}
+.statistics-dialog::backdrop{background:#090711e8;backdrop-filter:blur(3px)}
+.statistics-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 22px 16px;border-bottom:2px solid #514268;background:#1d1a31}
+.statistics-kicker{color:#ff6b9b;font:8px/1.8 'Press Start 2P','Courier New',monospace;letter-spacing:0}
+.statistics-kicker span{color:#ffd45e;font-size:10px}
+.statistics-header h2{margin:8px 0 5px;color:#ffe994;font:12px/1.8 'Press Start 2P','Courier New',monospace;letter-spacing:0}
+.statistics-header p{margin:0;color:#b4a6c9;font:11px/1.5 'Courier New',monospace}
+.statistics-close{display:flex;align-items:center;gap:8px;min-height:42px;padding:0 12px;border:2px solid #514268;border-radius:0;background:#171321;color:#fff4d6;font:7px/1.8 'Press Start 2P','Courier New',monospace;cursor:pointer;box-shadow:3px 3px 0 #090812;transition:background .1s,border-color .1s,transform .1s}
+.statistics-close span{color:#ff6b9b;font:18px/1 'Courier New',monospace}
+.statistics-close:hover{border-color:#ffd45e;background:#493552}
+.statistics-close:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #090812}
+.statistics-close:focus-visible{outline:3px solid #ffd45e;outline-offset:3px}
+.statistics-dashboard{display:grid;gap:16px;padding:18px 20px 22px}
+.elo-card{padding:15px 17px 12px;border:2px solid #514268;border-radius:0;background:#171321;box-shadow:4px 4px 0 #090812;animation:statistics-card-in .22s steps(4,end) both}
+.elo-topline{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px}
+.elo-emblem{display:grid;place-items:center;width:42px;height:42px;border:2px solid #d69bc9;border-radius:0;background:#292343;color:#ffd45e;font:23px/1 'Courier New',monospace;text-shadow:2px 2px #090812}
+.elo-topline h3{margin:0;color:#ffe994;font:8px/1.8 'Press Start 2P','Courier New',monospace}
+.elo-topline p{margin:3px 0 0;color:#b4a6c9;font:8px/1.5 'Press Start 2P','Courier New',monospace}
+.elo-score{color:#ffd45e;font:20px/1.4 'Press Start 2P','Courier New',monospace;text-shadow:2px 2px #090812}
+.elo-delta{margin:11px 0 7px;color:#d1c4df;font:11px 'Courier New',monospace}
+.elo-progress{height:12px;padding:2px;border:2px solid #514268;border-radius:0;background:#100f1d;box-shadow:inset 2px 2px #090812}
+.elo-progress span{display:block;width:0;height:100%;background:repeating-linear-gradient(90deg,#b69aff 0 8px,#f36eae 8px 16px,#ffd45e 16px 24px);transition:width .25s steps(8,end)}
+.elo-scale{display:flex;justify-content:space-between;margin-top:5px;color:#9b91aa;font:8px 'Courier New',monospace}
+.mode-statistics{min-width:0}
+.mode-section-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding:0 2px}
+.mode-section-heading h3{margin:5px 0 0;color:#f4e8ff;font:8px/1.8 'Press Start 2P','Courier New',monospace}
+.mode-heading-icon{color:#b69aff;font:20px/1 'Courier New',monospace}
+.mode-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.mode-stat-card{min-width:0;padding:12px;border:2px solid #514268;border-radius:0;background:#171321;box-shadow:4px 4px 0 #090812;animation:statistics-card-in .22s steps(4,end) both}
+.mode-stat-card:nth-child(2){animation-delay:.04s}.mode-stat-card:nth-child(3){animation-delay:.08s}.mode-stat-card:nth-child(4){animation-delay:.12s}
+.mode-stat-card:hover{border-color:#ffd45e;background:#211a31;box-shadow:4px 4px 0 #090812}
+.mode-stat-card>header{display:flex;align-items:center;gap:9px;min-height:28px;margin:0 0 10px;padding:0;border:0;border-bottom:1px solid #514268;border-radius:0;background:transparent}
+.mode-icon{display:grid;place-items:center;flex:0 0 26px;width:26px;height:26px;border:2px solid #76558c;border-radius:0;background:#292343;color:#ffd45e;font:16px/1 'Courier New',monospace;text-shadow:1px 1px #090812}
+.mode-stat-card h4{margin:0;color:#fff4d6;font:7px/1.8 'Press Start 2P','Courier New',monospace}
+.mode-card-numbers{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.mode-stat-value{display:flex;align-items:baseline;gap:6px;padding:7px;background:#100f1d;border:1px solid #514268;border-left:3px solid #ffd45e;border-radius:0}
+.mode-stat-value.losses{border-left-color:#ff6b9b}
+.mode-stat-value strong{color:#ffd45e;font:700 18px/1 'Courier New',monospace}
+.mode-stat-value.losses strong{color:#ff6b9b}
+.mode-stat-value span{color:#b4a6c9;font:7px 'Press Start 2P','Courier New',monospace}
+.mode-winrate{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:7px;border-top:1px solid #514268}
+.mode-winrate span{color:#b4a6c9;font:7px 'Press Start 2P','Courier New',monospace}
+.mode-winrate strong{color:#ffe994;font:700 13px 'Courier New',monospace}
+.mode-empty{margin:5px 0 0;color:#9b91aa;font:10px 'Courier New',monospace}
+@keyframes statistics-card-in{from{opacity:0;transform:translate(4px,4px)}to{opacity:1;transform:translate(0,0)}}
+@media(max-width:600px){.statistics-dialog{width:calc(100vw - 20px);max-height:92dvh}.statistics-header{align-items:flex-start;padding:14px 12px}.statistics-header h2{font-size:9px}.statistics-header p{font-size:10px}.statistics-kicker{font-size:6px}.statistics-close{min-height:38px;padding:0 8px;font-size:6px}.statistics-dashboard{gap:13px;padding:13px 10px 16px}.mode-card-grid{grid-template-columns:1fr}.mode-stat-card{padding:10px}.mode-stat-card h4{font-size:7px}.elo-card{padding:12px}.elo-score{font-size:16px}.elo-topline h3{font-size:7px}.elo-topline p{font-size:6px}}
+@media(max-height:500px){.statistics-dialog{max-height:calc(100dvh - 16px)}}
+@media(prefers-reduced-motion:reduce){.statistics-dialog *{animation:none!important;transition:none!important}}
+
+/* Menu principal: direção arcade limpa, com HUD e marca do jogo integrados. */
+body:has(#game-menu:not([hidden])) .layout{position:relative;z-index:1}
+body:has(#game-menu:not([hidden])) .intro{display:none}
+body:has(#game-menu:not([hidden]))::before{position:fixed;z-index:0;inset:0;background-color:#12081d;background-image:linear-gradient(90deg,#f5b9420a 1px,transparent 1px),linear-gradient(#f5b9420a 1px,transparent 1px),radial-gradient(ellipse at 50% 35%,transparent 15%,#08040dcc 100%),linear-gradient(145deg,#1c0c2b,#100719);background-position:center;background-size:64px 64px,64px 64px,cover,cover;content:"";pointer-events:none}
+body:has(#game-menu:not([hidden]))::after{position:fixed;z-index:0;right:5vw;bottom:10vh;color:#e03a7a;content:"ゴゴゴゴ";font:clamp(24px,4vw,54px/1) serif;letter-spacing:.12em;opacity:.055;pointer-events:none;transform:rotate(-9deg)}
+.game-menu{position:relative;isolation:isolate;overflow:hidden;width:min(1000px,100%);max-width:1000px;margin:24px auto 40px;padding:28px 32px 30px;border:1px solid #f5b94270;border-radius:3px;background:linear-gradient(145deg,#1b1027f7,#120b1bf9);box-shadow:0 18px 55px #06020dcc,0 0 0 5px #e03a7a12;text-align:center;animation:menu-enter .28s ease-out both}
+.game-menu::before{position:absolute;z-index:-1;inset:0;background-image:linear-gradient(125deg,transparent 0 48%,#f5b9420b 48.2% 48.5%,transparent 48.7%);content:"";pointer-events:none}
+.game-menu::after{content:none}
+.menu-logo-frame{display:grid;place-items:center;width:min(330px,78vw);margin:0 auto 2px;overflow:hidden}
+.menu-logo{display:block;width:100%;height:auto;image-rendering:pixelated;mix-blend-mode:screen;filter:drop-shadow(0 0 8px #f5b94270) drop-shadow(0 0 17px #e03a7a60);-webkit-mask-image:radial-gradient(ellipse 78% 72% at center,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 78% 72% at center,#000 58%,transparent 100%)}
+.game-menu .menu-kicker{margin:0;color:#f5b942;font:700 10px/1.8 'Press Start 2P','Courier New',monospace;letter-spacing:1.4px;text-shadow:0 0 12px #e03a7a88}
+.menu-hud{display:flex;justify-content:center;align-items:center;gap:9px;flex-wrap:wrap;margin:14px 0 12px}
+.game-menu .menu-coins,.game-menu .save-note{display:inline-flex;align-items:center;gap:8px;min-height:34px;margin:0!important;padding:6px 12px;border:1px solid #f5b94255;background:#100819;color:#f5b942;font:8px/1.6 'Press Start 2P','Courier New',monospace;letter-spacing:.2px;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px))}
+.game-menu .menu-coins::before{width:12px;height:12px;border:2px solid #f5b942;border-radius:50%;background:radial-gradient(circle,#f5b942 0 2px,transparent 2.5px);content:""}
+.game-menu .save-note{color:#ded2e8;border-color:#e03a7a66}
+.game-menu .save-note::before{width:12px;height:12px;border:1px solid #e03a7a;border-radius:1px;background:linear-gradient(90deg,transparent 35%,#e03a7a 36% 65%,transparent 66%);content:""}
+.game-menu h2{margin:10px 0 7px;color:#fff;font:clamp(16px,2.4vw,23px)/1.6 'Press Start 2P','Courier New',monospace;text-shadow:2px 2px #e03a7a,0 0 18px #e03a7a55}
+.game-menu>p:not(.save-note){margin:0;color:#c9bfd2;font:13px/1.55 'Courier New',monospace}
+.menu-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+.menu-options button{position:relative;display:grid;grid-template-columns:42px minmax(0,1fr);grid-template-rows:auto auto;align-content:center;column-gap:12px;min-height:100px;padding:14px 17px;border:1px solid #f5b9424d;border-radius:0;clip-path:polygon(0 0,calc(100% - 13px) 0,100% 13px,100% 100%,13px 100%,0 calc(100% - 13px));background:linear-gradient(110deg,#21122f,#160d20 75%);box-shadow:inset 3px 0 #e03a7a55;text-align:left;transition:transform .16s,border-color .16s,background .16s,box-shadow .16s}
+.menu-options button:hover{transform:scale(1.02) translateX(2px);border-color:#f5b942;background:linear-gradient(110deg,#32203d,#1b1027 75%);box-shadow:inset 4px 0 #f5b942, inset 0 0 24px #e03a7a20,0 0 15px #f5b94230}
+.menu-options button:active{transform:scale(.99)}
+.menu-options button:focus-visible,.menu-secondary-actions button:focus-visible,.tutorial-menu-open:focus-visible,#open-profile:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.menu-options button span{grid-column:1;grid-row:1/3;align-self:center;display:grid;place-items:center;width:38px;height:38px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);border:1px solid #f5b94288;background:#12081d;color:#f5b942;font:12px 'Barlow Condensed','Courier New',sans-serif;letter-spacing:1px}
+.menu-options button strong{grid-column:2;color:#fff;font:11px/1.8 'Press Start 2P','Courier New',monospace}
+.menu-options button small{grid-column:2;color:#bdb1c8;font:12px/1.5 'Courier New',monospace}
+.bot-difficulty-control{width:min(100%,520px);margin-top:18px;padding:12px 14px;border:1px solid #e03a7a66;background:#160d20;color:#f3d7e5;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.bot-difficulty-control>span{color:#f5b942}
+.bot-difficulty-control select{border:1px solid #f5b94288;background:#12081d;color:#fff}
+.menu-loadout{display:table;margin:12px auto 0;padding:8px 14px;border:1px solid #f5b94288;background:linear-gradient(100deg,#26152f,#160d20);color:#c9bfd2;font:8px/1.8 'Press Start 2P','Courier New',monospace;box-shadow:inset 3px 0 #f5b942}
+.menu-loadout b{color:#f5b942;text-shadow:0 0 10px #f5b94255}
+.tutorial-menu-open{display:block;width:100%;min-height:44px;margin:14px 0 0;border:1px solid #e03a7a;background:#36152e;color:#fff;font:8px/1.8 'Press Start 2P','Courier New',monospace;box-shadow:0 4px 0 #09040e;transition:transform .14s,border-color .14s,background .14s,box-shadow .14s}
+.tutorial-menu-open:hover{transform:translateY(-2px);border-color:#f5b942;background:#4a1b3c;box-shadow:0 6px 0 #09040e,0 0 16px #e03a7a45}
+.tutorial-menu-open:active{transform:translateY(2px);box-shadow:0 1px 0 #09040e}
+.menu-secondary-actions{gap:9px;margin-top:13px}
+.menu-secondary-actions button{min-height:42px;border:1px solid #ffffff25;border-radius:0;background:#140c1d;color:#ded2e8;box-shadow:0 3px 0 #08040d;transition:transform .14s,border-color .14s,background .14s,color .14s,box-shadow .14s}
+.menu-secondary-actions button:hover{transform:translateY(-2px);border-color:#f5b942;background:#21122f;color:#fff;box-shadow:0 5px 0 #08040d,0 0 12px #f5b94222}
+.menu-secondary-actions button:active{transform:translateY(1px);box-shadow:0 1px 0 #08040d}
+.menu-secondary-actions .shop-open-button{margin:0;border-color:#e03a7a77;background:#21122f;color:#f5b942;font:7px/1.8 'Press Start 2P','Courier New',monospace;letter-spacing:0}
+.menu-secondary-actions .shop-open-button:hover{border-color:#f5b942;background:#2c1734;color:#fff}
+#open-profile{min-height:42px;margin-top:12px;padding:0 16px;border:1px solid #ffffff25;border-radius:0;background:#140c1d;color:#ded2e8;box-shadow:0 3px 0 #08040d;font:7px/1.8 'Press Start 2P','Courier New',monospace;transition:transform .14s,border-color .14s,background .14s}
+#open-profile:hover{transform:translateY(-2px);border-color:#e03a7a;background:#21122f}
+#open-profile:active{transform:translateY(1px);box-shadow:0 1px 0 #08040d}
+.topbar .updates-panel{position:relative;inset:auto;width:auto;flex:0 0 auto;filter:none}
+.topbar .updates-panel>summary{min-height:42px;border-color:#f5b94266;outline-color:#e03a7a;background:#160d20;color:#f5b942}
+.updates-indicator{position:relative;width:13px;height:13px;font-size:0}
+.updates-indicator::before{position:absolute;inset:1px;border:1px solid #f5b942;content:"";transform:rotate(45deg)}
+.topbar .updates-content{top:calc(100% + 8px);right:0;bottom:auto;left:auto;width:min(370px,calc(100vw - 32px))}
+@keyframes menu-enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){.game-menu{margin:12px auto 28px;padding:20px 14px 22px}.menu-options{grid-template-columns:1fr;gap:9px;margin-top:15px}.menu-options button{min-height:82px;padding:11px 13px}.menu-secondary-actions,body.mobile-mode .menu-secondary-actions{grid-template-columns:1fr 1fr;gap:7px}.menu-secondary-actions button{padding:8px 6px;font-size:6px}.menu-secondary-actions .shop-open-button{font-size:6px}.tutorial-menu-open{font-size:7px}.menu-options button:hover,.menu-secondary-actions button:hover,.tutorial-menu-open:hover,#open-profile:hover{transform:none}}
+@media(max-width:640px){.topbar .settings-open-button{margin-left:0}.topbar .updates-panel{margin-left:auto}.topbar .updates-panel>summary{min-height:42px;padding:0 9px;font-size:7px}.topbar .updates-content{right:0;left:auto;top:calc(100% + 7px);bottom:auto;width:min(340px,calc(100vw - 28px))}}
+@media(max-width:420px){.game-menu h2{font-size:10px}.menu-options button strong{font-size:9px}.menu-options button small{font-size:11px}.menu-secondary-actions,body.mobile-mode .menu-secondary-actions{grid-template-columns:1fr}.menu-secondary-actions button,.menu-secondary-actions .shop-open-button{font-size:7px}.menu-hud{gap:6px}.game-menu .menu-coins,.game-menu .save-note{font-size:6px}}
+@media(max-height:700px) and (min-width:761px){.game-menu{margin:10px auto 22px;padding:14px 22px 18px}.menu-logo-frame{width:235px}.menu-hud{margin:8px 0}.game-menu h2{margin:6px 0;font-size:13px}.menu-options{margin-top:12px}.menu-options button{min-height:82px;padding:10px 13px}.tutorial-menu-open{min-height:40px;margin-top:10px}.menu-secondary-actions{margin-top:10px}.menu-secondary-actions button{min-height:38px}}
+@media(prefers-reduced-motion:reduce){body:has(#game-menu:not([hidden]))::before,body:has(#game-menu:not([hidden]))::after,.game-menu,.menu-logo-frame,.menu-options button,.menu-secondary-actions button,.tutorial-menu-open,#open-profile{animation:none!important;transition:none!important}}

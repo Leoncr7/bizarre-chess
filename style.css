@@ -706,3 +706,4 @@ body.mobile-mode .menu-options button{padding:12px 14px}
 
 .square.capture:after{content:""}
 .square{width:calc(100% + 1px);height:calc(100% + 1px);margin:0 -1px -1px 0}
+.endgame-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}.endgame-actions .reset-button{width:100%;margin-top:0}

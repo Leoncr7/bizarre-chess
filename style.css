@@ -707,6 +707,7 @@ body.mobile-mode .menu-options button{padding:12px 14px}
 .square.capture:after{content:""}
 .square{width:calc(100% + 1px);height:calc(100% + 1px);margin:0 -1px -1px 0}
 .endgame-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}.endgame-actions .reset-button{width:100%;margin-top:0}
+
 /* Painel de estatísticas: os mesmos contornos retos e sombras pixel art do jogo. */
 .statistics-dialog{width:min(760px,calc(100vw - 28px));max-height:90dvh;overflow:auto;margin:auto;padding:0;border:4px solid #80649a;border-radius:0;background:#1d1a31;color:#fff4d6;box-shadow:8px 8px 0 #090812;font-family:'Courier New',monospace}
 .statistics-dialog::backdrop{background:#090711e8;backdrop-filter:blur(3px)}
@@ -756,6 +757,10 @@ body.mobile-mode .menu-options button{padding:12px 14px}
 @media(max-width:600px){.statistics-dialog{width:calc(100vw - 20px);max-height:92dvh}.statistics-header{align-items:flex-start;padding:14px 12px}.statistics-header h2{font-size:9px}.statistics-header p{font-size:10px}.statistics-kicker{font-size:6px}.statistics-close{min-height:38px;padding:0 8px;font-size:6px}.statistics-dashboard{gap:13px;padding:13px 10px 16px}.mode-card-grid{grid-template-columns:1fr}.mode-stat-card{padding:10px}.mode-stat-card h4{font-size:7px}.elo-card{padding:12px}.elo-score{font-size:16px}.elo-topline h3{font-size:7px}.elo-topline p{font-size:6px}}
 @media(max-height:500px){.statistics-dialog{max-height:calc(100dvh - 16px)}}
 @media(prefers-reduced-motion:reduce){.statistics-dialog *{animation:none!important;transition:none!important}}
+
+/* Arte do título integrada ao cenário da partida. */
+body:has(#game:not([hidden])){position:relative;isolation:isolate}
+body:has(#game:not([hidden]))::before{position:fixed;z-index:-1;inset:0;background:url("fundojogo.jpg") center 42%/min(72vw,760px) auto no-repeat;content:"";opacity:.12;pointer-events:none;image-rendering:pixelated}
 
 /* Menu principal: direção arcade limpa, com HUD e marca do jogo integrados. */
 body:has(#game-menu:not([hidden])) .layout{position:relative;z-index:1}
@@ -811,3 +816,103 @@ body:has(#game-menu:not([hidden]))::after{position:fixed;z-index:0;right:5vw;bot
 @media(max-width:420px){.game-menu h2{font-size:10px}.menu-options button strong{font-size:9px}.menu-options button small{font-size:11px}.menu-secondary-actions,body.mobile-mode .menu-secondary-actions{grid-template-columns:1fr}.menu-secondary-actions button,.menu-secondary-actions .shop-open-button{font-size:7px}.menu-hud{gap:6px}.game-menu .menu-coins,.game-menu .save-note{font-size:6px}}
 @media(max-height:700px) and (min-width:761px){.game-menu{margin:10px auto 22px;padding:14px 22px 18px}.menu-logo-frame{width:235px}.menu-hud{margin:8px 0}.game-menu h2{margin:6px 0;font-size:13px}.menu-options{margin-top:12px}.menu-options button{min-height:82px;padding:10px 13px}.tutorial-menu-open{min-height:40px;margin-top:10px}.menu-secondary-actions{margin-top:10px}.menu-secondary-actions button{min-height:38px}}
 @media(prefers-reduced-motion:reduce){body:has(#game-menu:not([hidden]))::before,body:has(#game-menu:not([hidden]))::after,.game-menu,.menu-logo-frame,.menu-options button,.menu-secondary-actions button,.tutorial-menu-open,#open-profile{animation:none!important;transition:none!important}}
+
+/* Menu principal: tela de título anime/arcade. */
+body:has(#game-menu:not([hidden])){isolation:isolate}
+body:has(#game-menu:not([hidden]))::before{position:fixed;z-index:-1;inset:-10%;content:"";pointer-events:none;background:radial-gradient(ellipse at 50% 35%,#39234445,transparent 55%),repeating-conic-gradient(from 12deg at 50% 50%,#d4a84608 0deg 1deg,transparent 1deg 15deg),linear-gradient(135deg,#0c0913,#171020 48%,#0a0811);transform:perspective(600px) rotateX(4deg) scale(1.08)}
+body:has(#game-menu:not([hidden]))::after{position:fixed;z-index:-1;right:5vw;bottom:9vh;content:"ゴゴゴゴ";color:#e94b8c;font:clamp(26px,5vw,70px)/1 serif;letter-spacing:.15em;opacity:.055;pointer-events:none;transform:rotate(-10deg)}
+body:has(#game-menu:not([hidden])) .intro{display:none}
+.game-menu{width:min(100%,920px);max-width:920px;margin:24px auto 70px;padding:clamp(20px,4vw,38px);border:1px solid #d4aa594c;border-radius:3px;background:linear-gradient(145deg,#20152cf5,#100c19f7 72%);box-shadow:0 24px 80px #0009,0 0 0 4px #e64b8610,inset 0 0 50px #7d43800b}
+.menu-title-block{position:relative;width:fit-content;max-width:100%;margin:0 auto 18px;padding:0 18px 13px}
+.menu-title-block::after{position:absolute;right:0;bottom:0;left:0;height:2px;background:linear-gradient(90deg,transparent,#e64b86 18%,#f0ca70 50%,#e64b86 82%,transparent);content:"";box-shadow:0 0 14px #e64b8670}
+.menu-game-title{margin:0;background:linear-gradient(180deg,#fff7d5 0%,#f5d578 30%,#c89337 58%,#fff4cd 76%,#eee3d1 100%);background-clip:text;color:transparent;font:900 clamp(25px,5.2vw,52px)/1.12 Cinzel,Georgia,serif;letter-spacing:.055em;text-shadow:0 2px 0 #fff2,0 5px 0 #6e431c,0 8px 15px #000c;filter:drop-shadow(0 0 12px #efbd5344)}
+.game-menu .menu-kicker{margin-top:9px;color:#ed7caf;font:700 clamp(8px,1.2vw,11px)/1.6 Oswald,sans-serif;letter-spacing:.32em;text-shadow:0 0 10px #df4c9766}
+.menu-kicker i{color:#f1c86b;font-style:normal;padding:0 .35em}
+.menu-hud{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:15px auto 20px}
+.game-menu .menu-coins,.game-menu .save-note{display:flex;align-items:center;justify-content:center;gap:9px;min-height:38px;margin:0!important;padding:7px 14px;border:1px solid #cda64e65;background:linear-gradient(110deg,#1a1424,#100d18);color:#f1d27e;font:700 9px/1.5 Oswald,sans-serif;letter-spacing:.12em;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px))}
+.game-menu .menu-coins svg,.game-menu .save-note svg{width:19px;height:19px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.game-menu .save-note{color:#d4c8dc;border-color:#b65c895c}
+.game-menu h2{margin:12px 0 5px;color:#fff5dc;font:700 clamp(15px,2.2vw,20px)/1.5 Oswald,sans-serif;letter-spacing:.12em;text-transform:uppercase;text-shadow:0 2px 12px #e64b8644}
+.game-menu>p:not(.save-note){margin:0;color:#b9adbf;font:13px/1.6 'Courier New',monospace}
+.menu-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:22px}
+.menu-options button{position:relative;isolation:isolate;display:grid;grid-template-columns:42px 1fr;grid-template-rows:auto auto;align-content:center;column-gap:12px;min-height:104px;padding:15px 18px;overflow:hidden;border:1px solid #b69aff55;border-radius:0;background:linear-gradient(115deg,#291d3b,#171222 74%);box-shadow:inset 3px 0 #e34e8e75, inset 0 0 0 1px #e2c16b16,3px 4px 0 #08060d;color:var(--ink);text-align:left;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));transition:transform .18s ease,border-color .18s ease,filter .18s ease,box-shadow .18s ease}
+.menu-options button::after{position:absolute;z-index:-1;right:7px;bottom:-28px;width:100px;height:100px;border:1px solid #f0ca701a;border-radius:50%;content:"";box-shadow:0 0 0 10px #e64b8608,0 0 0 22px #e64b8606}
+.menu-options button:hover{z-index:1;transform:translateY(-3px) scale(1.01);border-color:#f0ca70;filter:brightness(1.18);box-shadow:inset 3px 0 #f0ca70,inset 0 0 24px #dc4d8c20,0 0 16px #f0ca7030,3px 7px 0 #08060d}
+.menu-options button:active{transform:translateY(0) scale(.995)}
+.menu-options button span{grid-column:1;grid-row:1/3;z-index:2;align-self:center;display:grid;place-items:center;width:38px;height:38px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);border:1px solid #e9c36799;background:#120d1b;color:#f4d47d;font:700 12px Oswald,sans-serif;letter-spacing:.1em}
+.menu-options button .mode-sigil{position:absolute;right:17px;bottom:9px;width:62px;height:62px;fill:none;stroke:#e7c774;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;opacity:.16;pointer-events:none}
+.menu-options button strong{grid-column:2;color:#fff;font:700 clamp(10px,1.1vw,13px)/1.6 Oswald,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.menu-options button small{grid-column:2;color:#bdb1c8;font:12px/1.5 'Courier New',monospace}
+.bot-difficulty-control{width:100%;max-width:none;margin:18px auto 0;padding:13px 15px;border:1px solid #9d77bd55;background:linear-gradient(100deg,#21172e,#15101f);box-shadow:inset 3px 0 #e64b8666}
+.bot-difficulty-control>span{color:#d9c5e7}
+.bot-difficulty-control select{border-color:#d0a84f88;background:#100d18;color:#fff0c5}
+.menu-loadout{display:block;width:100%;margin:10px auto 0;padding:13px 15px;border:1px solid #d0a84f66;background:linear-gradient(100deg,#2a1d30,#17101e);color:#cfc2d5;box-shadow:inset 3px 0 #d0a84f}
+.menu-loadout b{color:#f5d981;text-shadow:0 0 10px #f5d98155}
+.menu-secondary-actions{gap:9px;margin-top:14px}
+.updates-panel{position:absolute;z-index:20;top:0;right:0;bottom:auto;left:auto;width:min(340px,calc(100vw - 32px));filter:drop-shadow(3px 4px 0 #090812)}
+.updates-panel>summary{min-height:42px;padding:0 13px;border-width:1px;outline-width:1px;font:700 8px/1.5 Oswald,sans-serif;letter-spacing:.12em}
+.updates-content{top:50px;right:0;bottom:auto;left:auto;width:min(370px,calc(100vw - 32px))}
+@media(max-width:760px){.game-menu{margin:14px auto 72px;padding:22px 16px}.menu-title-block{margin-bottom:14px}.menu-game-title{font-size:clamp(23px,7vw,38px)}.menu-options{grid-template-columns:1fr;gap:10px;margin-top:17px}.menu-options button{min-height:88px;padding:13px 15px}.menu-secondary-actions,body.mobile-mode .menu-secondary-actions{grid-template-columns:1fr 1fr}.menu-secondary-actions button{font-size:7px}.updates-panel{top:auto;right:auto;bottom:-62px;left:0;width:min(100%,340px)}.updates-content{top:auto;right:auto;bottom:50px;left:0}}
+@media(max-width:420px){.menu-title-block{padding-right:4px;padding-left:4px}.menu-game-title{font-size:clamp(20px,7.5vw,30px);letter-spacing:.025em}.game-menu .menu-kicker{letter-spacing:.2em}.menu-hud{gap:7px}.game-menu .menu-coins,.game-menu .save-note{width:100%;font-size:8px}.menu-options button strong{font-size:11px}.menu-options button small{font-size:11px}.menu-secondary-actions,body.mobile-mode .menu-secondary-actions{grid-template-columns:1fr}.updates-panel{width:100%}}
+@media(prefers-reduced-motion:reduce){.menu-options button{transition:none!important}}
+
+/* Ajustes de encaixe para o cabeçalho e o conteúdo em telas estreitas. */
+.topbar{position:relative;height:auto;min-height:48px;flex-wrap:wrap;gap:10px;padding-bottom:12px}
+.topbar .updates-panel{position:relative;inset:auto;flex:0 0 auto;width:auto;max-width:100%;margin:0 0 0 auto}
+.topbar .updates-content{top:calc(100% + 8px);right:0;bottom:auto;left:auto;z-index:30;width:min(370px,calc(100vw - 32px))}
+.game-menu{min-width:0;overflow:hidden}
+.menu-title-block{width:100%;padding-right:8px;padding-left:8px}
+.menu-game-title{overflow-wrap:anywhere}
+.menu-options button{min-width:0}
+.menu-options button small,.menu-options button strong{overflow-wrap:anywhere}
+@media(max-width:760px){.topbar .updates-panel{margin:0 0 0 auto}.game-menu{margin-bottom:30px}.menu-options{grid-template-columns:1fr}.menu-options button{min-height:88px}}
+@media(max-width:480px){.topbar{flex-direction:row;align-items:center;justify-content:center}.topbar .brand{width:100%;justify-content:center}.topbar .edition{order:initial;width:auto;margin:0}.topbar .settings-open-button{margin:0}.topbar .updates-panel{margin:0}.topbar .updates-content{top:calc(100% + 6px);right:50%;transform:translateX(50%);width:min(340px,calc(100vw - 24px))}.menu-title-block{padding-right:0;padding-left:0}}
+
+/* Loja de poderes: mesmo acabamento arcade do menu principal. */
+.shop-dialog{position:relative;isolation:isolate;width:min(960px,calc(100vw - 32px));max-width:960px;max-height:min(88dvh,900px);overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding:30px clamp(16px,3vw,32px) 24px;border:2px solid #f5b942;background:radial-gradient(ellipse at 50% 0%,#38223e 0,#1c1128 48%,#12081d 100%);box-shadow:0 0 0 4px #e03a7a24,0 24px 80px #05020be8, inset 0 0 0 4px #f5b9421a;color:#fff4df;scrollbar-color:#e03a7a #21152e;scrollbar-width:thin}
+.shop-dialog::backdrop{background:#08040edb;backdrop-filter:blur(7px)}
+.shop-dialog::before{position:absolute;z-index:-1;inset:0;content:"ゴゴゴゴ";display:grid;place-items:center;color:#e03a7a;font:clamp(70px,18vw,190px)/1 serif;letter-spacing:.1em;opacity:.035;pointer-events:none;transform:rotate(-9deg)}
+.shop-dialog::-webkit-scrollbar{width:10px}.shop-dialog::-webkit-scrollbar-track{background:#21152e}.shop-dialog::-webkit-scrollbar-thumb{border:2px solid #21152e;background:linear-gradient(#f5b942,#e03a7a)}
+.shop-heading{position:relative;align-items:center;gap:16px;min-width:0;padding:8px 0 17px;border-bottom:1px solid #f5b94277}
+.shop-heading>div:first-child{min-width:0}
+.shop-heading .menu-kicker{margin:0 0 8px;color:#f07caf;font:700 9px/1.7 Oswald,'Barlow',sans-serif;letter-spacing:.2em;text-shadow:0 0 10px #e03a7a55;overflow-wrap:anywhere}
+.shop-heading h2{margin:0;background:linear-gradient(180deg,#fff7d5 0%,#f5d578 34%,#c89337 61%,#fff4cd 82%,#eee3d1 100%);background-clip:text;color:transparent;font:900 clamp(24px,4vw,38px)/1.2 Cinzel,Georgia,serif;letter-spacing:.025em;text-shadow:0 2px 0 #fff2,0 4px 0 #63401f,0 7px 12px #000b;filter:drop-shadow(0 0 8px #f5b94235)}
+.shop-coins{display:flex;align-items:center;gap:8px;flex:none;white-space:nowrap;padding:10px 14px;border:1px solid #f5b942;background:linear-gradient(130deg,#392b30,#1b1323);clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));box-shadow:inset 0 0 14px #f5b94212,0 0 14px #f5b94222;color:#ffe18a;font:700 12px Oswald,sans-serif;letter-spacing:.05em}
+.shop-coins svg{width:20px;height:20px;fill:none;stroke:#f5b942;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px #f5b94299)}
+.shop-explainer{max-width:780px;margin:16px 0;color:#d4c8dd;font:13px/1.65 'Courier New',monospace}.shop-explainer strong{color:#f5b942}
+.shop-items-heading{margin:18px 0 10px;padding-bottom:8px;border-bottom:1px solid #e03a7a55;color:#f5b942;font:700 10px Oswald,sans-serif;letter-spacing:.2em}.shop-items-heading span{color:#b9a9c4;font:12px 'Courier New',monospace;letter-spacing:0}
+.shop-items{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:2px 4px 12px 2px}
+.shop-item{position:relative;isolation:isolate;grid-template-columns:50px minmax(0,1fr) 116px;align-items:start;gap:11px;min-width:0;min-height:172px;padding:15px;border:1px solid #76558d;border-radius:0;clip-path:polygon(0 0,calc(100% - 13px) 0,100% 13px,100% 100%,13px 100%,0 calc(100% - 13px));background:linear-gradient(130deg,#261a35,#171020 72%);box-shadow:inset 3px 0 #e03a7a55,inset 0 0 0 1px #f5b94212,3px 4px 0 #08050c;transition:border-color .18s,box-shadow .18s,transform .18s}
+.shop-item::before{position:absolute;z-index:-1;right:0;bottom:0;left:0;height:2px;background:linear-gradient(90deg,transparent,#e03a7a88,#f5b94288,transparent);content:""}
+.shop-item.is-equipped{border-color:#f5b942;background:linear-gradient(130deg,#3a2b25,#211522 74%);box-shadow:inset 3px 0 #f5b942,inset 0 0 30px #f5b94213,0 0 16px #f5b94235,3px 4px 0 #08050c}
+.shop-item.is-unlocked:not(.is-equipped){border-color:#d565a2;box-shadow:inset 3px 0 #e03a7a,inset 0 0 22px #e03a7a12,0 0 12px #e03a7a20,3px 4px 0 #08050c}
+.shop-item:not(.is-unlocked){border-color:#57475f;filter:saturate(.7)}
+.shop-item-icon{position:relative;width:48px;height:48px;border:1px solid #f5b942;border-radius:0;clip-path:polygon(25% 0,75% 0,100% 25%,100% 75%,75% 100%,25% 100%,0 75%,0 25%);background:radial-gradient(circle,#49313d,#1b1026 70%);box-shadow:inset 0 0 0 3px #f5b94224,0 0 13px #f5b94222;color:#f5b942}
+.shop-item:nth-child(2) .shop-item-icon{border-color:#e03a7a;color:#f27db8;box-shadow:inset 0 0 0 3px #e03a7a24,0 0 13px #e03a7a22}
+.shop-item:nth-child(3) .shop-item-icon{border-color:#63d9ef;color:#89eaff;box-shadow:inset 0 0 0 3px #63d9ef24,0 0 13px #63d9ef22}
+.shop-item:nth-child(4) .shop-item-icon{border-color:#f04c6e;color:#ff7186;box-shadow:inset 0 0 0 3px #f04c6e24,0 0 13px #f04c6e22}
+.shop-item-icon .stand-icon{width:27px;height:27px}
+.shop-item-details{min-width:0;gap:5px}.shop-item-details .shop-power-title{color:#fff2d4;font:700 clamp(14px,1.5vw,19px)/1.25 Oswald,sans-serif;letter-spacing:.035em;text-transform:uppercase;overflow-wrap:anywhere}
+.shop-item-details .shop-character{color:#e9a5c8;font:700 9px/1.45 Oswald,sans-serif;letter-spacing:.1em;text-transform:uppercase;overflow-wrap:anywhere}
+.shop-power-description{margin:3px 0 4px;color:#d2c7d7;font:11px/1.5 'Courier New',monospace}
+.shop-recharge,.shop-price{display:inline-flex;width:fit-content;max-width:100%;align-items:center;margin:1px 0 0;padding:4px 7px;border:1px solid #8d729554;background:#120d1b;color:#cdbfe0;font:10px/1.4 Oswald,sans-serif;letter-spacing:.04em}
+.shop-price{border-color:#f5b94250;color:#f5d47e}
+.shop-item-controls{grid-template-columns:1fr;align-content:start;justify-items:stretch;gap:7px;min-width:0}
+.shop-state{padding:6px 5px;border:1px solid #766b80;background:#211a2b;color:#d4c8dd;font:700 8px/1.4 Oswald,sans-serif;letter-spacing:.12em;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px))}
+.shop-state::before{content:"◆ ";font-size:7px}
+.shop-state.locked{border-color:#695e6c;background:#211b26;color:#a99eae}
+.shop-state.unlocked{border-color:#e03a7a;background:#32182c;color:#ffacd0}
+.shop-state.equipped{border-color:#f5b942;background:#3c2c18;color:#ffe18a;box-shadow:0 0 10px #f5b94227}
+.shop-buy{min-width:0;min-height:38px;padding:7px 5px;border:1px solid #bb8dd0;border-radius:0;background:linear-gradient(130deg,#46264d,#261831);color:#fff0cf;font:700 8px/1.6 Oswald,sans-serif;letter-spacing:.08em;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));box-shadow:0 3px 0 #09050d;transition:transform .16s,border-color .16s,box-shadow .16s,filter .16s}
+.shop-item:not(.is-unlocked) .shop-buy:not(:disabled){border-color:#f5b942;background:linear-gradient(120deg,#583d25,#3e1b3d);color:#ffe18a;box-shadow:0 0 14px #e03a7a38,0 0 12px #f5b94225,0 3px 0 #09050d}
+.shop-item:not(.is-unlocked) .shop-buy:disabled{border-color:#625767;background:#24202a;color:#9e95a4}
+.shop-item.is-unlocked:not(.is-equipped) .shop-buy{border-color:#e03a7a;color:#ffadd1}
+.shop-item.is-equipped .shop-buy{border-color:#f5b942;background:#49351d;color:#ffe18a}
+.shop-buy:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.2);border-color:#f5b942;box-shadow:0 0 15px #e03a7a55,0 0 14px #f5b94235,0 4px 0 #09050d}
+.shop-buy:active:not(:disabled){transform:translateY(1px)}
+.shop-buy:disabled{opacity:1;cursor:default}
+.shop-close{display:block;min-height:44px;margin:16px 0 0;border:1px solid #e03a7a;background:linear-gradient(110deg,#3d1934,#24142c);color:#ffd6e7;font:700 9px/1.6 Oswald,sans-serif;letter-spacing:.18em;box-shadow:0 4px 0 #09050d, inset 0 0 0 1px #f5b94225}
+.shop-close:hover{border-color:#f5b942;background:linear-gradient(110deg,#563525,#351a38);color:#fff0cb}
+@media(max-width:700px){.shop-items{grid-template-columns:1fr}.shop-item{min-height:0;grid-template-columns:46px minmax(0,1fr) 112px}.shop-item-icon{width:44px;height:44px}}
+@media(max-width:520px){.shop-dialog{width:calc(100vw - 16px);max-height:calc(100dvh - 16px);padding:24px 13px 18px}.shop-heading{align-items:flex-start;gap:9px;padding-top:4px}.shop-heading .menu-kicker{font-size:8px;letter-spacing:.14em}.shop-heading h2{font-size:clamp(19px,6vw,27px)}.shop-coins{gap:5px;padding:8px 9px;font-size:10px}.shop-coins svg{width:16px;height:16px}.shop-explainer{font-size:11px;margin:12px 0}.shop-items-heading{align-items:flex-start;font-size:9px}.shop-items-heading span{max-width:48%;font-size:10px}.shop-item{grid-template-columns:40px minmax(0,1fr);gap:9px;padding:12px 10px}.shop-item-icon{width:39px;height:39px;grid-row:1/3}.shop-item-controls{grid-column:2;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}.shop-state,.shop-buy{min-width:0;font-size:8px}.shop-item-details .shop-power-title{font-size:15px}.shop-power-description{font-size:10px}.shop-recharge,.shop-price{font-size:9px}}
+@media(max-width:360px){.shop-heading{flex-wrap:wrap}.shop-coins{margin-left:auto}.shop-item{grid-template-columns:34px minmax(0,1fr);gap:8px}.shop-item-icon{width:33px;height:33px}.shop-item-controls{grid-column:1/-1}.shop-item-details .shop-power-title{font-size:14px}}
